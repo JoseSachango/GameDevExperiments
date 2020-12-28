@@ -28,6 +28,11 @@ gameScene.create = function(){
     console.log(this.player)
 
 
+    //random coordinates
+   // this.randomX = Math.floor((Math.random()*315)+1)
+   // this.randomY = Math.floor(((Math.random())*170)+1)
+
+
     this.player.angle = 180
 
     //players current angle
@@ -126,6 +131,8 @@ gameScene.update = function(){
 
     if(this.cursors.space.isDown){
 
+       
+
        //if the space bar is down for longer than 2 seconds start spinning else fire bullet
        
 
@@ -136,11 +143,32 @@ gameScene.update = function(){
         console.log("This is the current value of this.count: ")
         console.log(this.count)
 
+        //Conditional statement so the player doesnt turn every time it fires
         if(this.count > 12){
-            this.player.angle += 2
+            this.player.angle += 5           
+        }
+
+        if(this.count===120){
+
+            this.randomX = Math.floor((Math.random()*315)+1)
+            this.randomY = Math.floor(((Math.random())*170)+1)
+
+            //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+
+            this.player.x = this.randomX
+            this.player.y = this.randomY
+
+            console.log("Random number for x coordinate value: ")
+            console.log(this.randomX)
+
+            console.log("Random number for y coordinate value: ")
+            console.log(this.randomY)
 
             
         }
+
+
+
         
         
 
@@ -160,17 +188,53 @@ gameScene.update = function(){
 
         if(this.downFlag){
 
-            //reset this.count
+            //reset this.count 
             this.count = 0
+
+
+
             //if the spacebar is clicked once fire bullets
             // the durations of 1 click is approximately 133 miliseconds
-            if(this.cursors.space.duration<135){
+            if(this.cursors.space.duration<150){
+
+
                 this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
                 this.bullet.angle = this.player.angle
                 this.physics.add.collider(this.bullet,this.player2)
 
+
                 this.bullet.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*500)
                 this.bullet.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*500)
+
+                
+                /*
+                this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
+                this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity)
+
+                this.velocity +=1
+                */
+
+              // this.player.setAccelerationX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
+
+              if(this.velocity <=150){
+
+                console.log("this.velocity <=150:")
+                console.log(this.velocity)
+
+
+                  this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
+                  this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity)
+
+                  this.velocity +=20
+
+              }else {
+                this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
+                this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity)
+
+                console.log("this.velocity other than 150:")
+                console.log(this.velocity)
+              }
+
 
             }
 
@@ -189,11 +253,11 @@ gameScene.update = function(){
             console.log("This is the players current angle when key is up: ")
             console.log(this.player.angle)
 
-            
+            /*
             if(this.velocity<80){
 
                 this.velocity += 1
-            }
+            }*/
 
             /*
             if(this.acceleration<70){
@@ -231,8 +295,7 @@ gameScene.update = function(){
             console.log(Math.sin((Math.PI/180)*this.player.angle)*60)
 
             
-            this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*60)
-            this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*60)
+           
 
             /*
             this.player.setAccelerationX(Math.cos((Math.PI/180)*this.player.angle)*60)
