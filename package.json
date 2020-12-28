@@ -1,0 +1,25 @@
+{
+  "name": "GameDevExperiments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoseSachango/GameDevExperiments.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoseSachango/GameDevExperiments/issues"
+  },
+  "homepage": "https://github.com/JoseSachango/GameDevExperiments#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-server": "^0.12.3",
+    "phaser": "^3.50.0"
+  }
+}
