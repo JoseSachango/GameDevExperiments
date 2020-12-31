@@ -1,8 +1,14 @@
 
 var express = require("express");
-var path = require("path")
+var path = require("path");
+var http = require("http");
+var socketio = require("socket.io");
 
 var app = express();
+
+var server = http.createServer(app);
+
+var io = socketio(server)
 
 
 var PORT = process.env.PORT || 3013;
@@ -23,6 +29,17 @@ app.get("/",function(request,response){
 })*/
 
 
-app.listen(PORT,function(){
+// Run when a client connects using the command -> var socketio = io();
+// the argument socket is the particular client that connected.
+io.on("connection",function(socket){
+
+    console.log("This is the socket: ")
+    console.log(socket)
+
+})
+
+
+
+server.listen(PORT,function(){
     console.log("Server up and running, listening on port:"+PORT)
 })

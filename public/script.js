@@ -20,8 +20,9 @@ gameScene.create = function(){
 
     this.player = this.physics.add.sprite(50,180,"player",0)// placing player in the scene context so you can access it from different methods
     this.player2 = this.physics.add.sprite(300,180,"player",0)
-    //this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    //this.bullet.visible = false
+    //this.player3 = this.physics.add.sprite(500,180,"player",0)
+    this.bullet2 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+    this.bullet2.visible = false
     // this.player = this.add.sprite(50,this.sys.game.config.height / 2,"player")// -> uses the game configurations height property to access instead of manually entering one
 
     console.log("This is the *this.player* object: ")
@@ -52,8 +53,13 @@ gameScene.create = function(){
 
     this.player.body.setCollideWorldBounds(true);
     this.player2.body.setCollideWorldBounds(true);
+    
+    //this.player3.body.setCollideWorldBounds(true);
 
     this.physics.add.collider(this.player,this.player2)
+    this.physics.add.collider(this.bullet2,this.player2)
+    //this.physics.add.collider(this.player2,this.player3)
+    //this.physics.add.collider(this.player,this.player3)
 
     this.player.body.bounce.set(1)
     this.player2.body.bounce.set(1)
@@ -66,6 +72,8 @@ gameScene.create = function(){
     this.acceleration = 60
 
     this.count = 0
+    this.count2 = 0
+    this.radius = 1
 
     this.downFlag = false;
 
@@ -82,7 +90,18 @@ gameScene.update = function(){
    // this.player.setVelocityX(0)
    //  this.player2.setVelocityX(0)
 
+   //this.player3.x += //the result of a math equation
 
+   //this.count2 is the angle that is constantly changing
+   //((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player2.x)
+   //((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player2.y)
+
+   /*
+   this.player3.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player2.x)
+   this.player3.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player2.y)
+
+
+   this.count2 +=1 */
     
 
     //console.log("This is the current value of the downFlag: ")
@@ -140,6 +159,8 @@ gameScene.update = function(){
         //if count greater than __ change the angle and then reset the count
         this.count += 1
 
+       
+
         console.log("This is the current value of this.count: ")
         console.log(this.count)
 
@@ -148,6 +169,31 @@ gameScene.update = function(){
             this.player.angle += 5           
         }
 
+        //Conditional statement that causes a bullet to spin around the player 
+
+        if(this.count>50&&this.count<120){
+
+            //this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+            this.bullet2.visible = true
+            
+
+            this.bullet2.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player.x)
+            this.bullet2.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player.y)
+         
+         
+            this.count2 +=10
+            this.radius += 1
+
+
+           
+
+        };
+
+        
+        
+
+
+        //Conditional statement that causes the player to disappear when 
         if(this.count===120){
 
             this.randomX = Math.floor((Math.random()*315)+1)
@@ -190,6 +236,8 @@ gameScene.update = function(){
 
             //reset this.count 
             this.count = 0
+            this.count2 = 0
+            this.radius = 1
 
 
 
@@ -199,7 +247,7 @@ gameScene.update = function(){
 
 
                 this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-                this.bullet.angle = this.player.angle
+                this.bullet.angle = this.player.angle + 90
                 this.physics.add.collider(this.bullet,this.player2)
 
 
