@@ -26,18 +26,18 @@ gameScene.create = function(){
     this.playerHealth = 100
     this.player2 = this.physics.add.sprite(300,180,"player",0)
     this.player2Health = 100
-    gameState.player2 = this.physics.add.sprite(300,180,"player",0)
-    gameState.player2Health = 100
+   // gameState.player2 = this.physics.add.sprite(300,180,"player",0)
+    //gameState.player2Health = 100
     //this.player3 = this.physics.add.sprite(500,180,"player",0)
     //this.count2 = 0
     //this.radius = 100
     this.bullet2 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
     this.bullet2.visible = false
-    gameState.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    gameState.bullet.visible = false
-    //this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    //this.bullet.angle = this.player.angle + 90
-    //this.bullet.visible = true
+    //gameState.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+    //gameState.bullet.visible = false
+    this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+    this.bullet.angle = this.player.angle + 90
+    this.bullet.visible = false
     /*
     this.bullet2s = this.add.group({
         key:"bullet2",
@@ -59,8 +59,8 @@ gameScene.create = function(){
     //this.bullet2s.visible = false
     // this.player = this.add.sprite(50,this.sys.game.config.height / 2,"player")// -> uses the game configurations height property to access instead of manually entering one
 
-    console.log("This is the *this.player* object: ")
-    console.log(this.player)
+   // console.log("This is the *this.player* object: ")
+    //console.log(this.player)
 
 
     //random coordinates
@@ -71,19 +71,19 @@ gameScene.create = function(){
     this.player.angle = 180
 
     //players current angle
-    console.log("This is the players current angle: ")
-    console.log(this.player2.angle)
+    //console.log("This is the players current angle: ")
+    //console.log(this.player2.angle)
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    console.log("This is the *this.cursors* object: ")
-    console.log(this.cursors)
+    //console.log("This is the *this.cursors* object: ")
+   // console.log(this.cursors)
     //player.setAngle(45);
     //player.rotation = Math.PI/4;
     //player.setRotation(Math.PI/4);
 
-    console.log("This is the *this.cursors.space* object: ")
-    console.log(this.cursors.space);
+    //console.log("This is the *this.cursors.space* object: ")
+    //console.log(this.cursors.space);
 
     this.player.body.setCollideWorldBounds(true);
     this.player2.body.setCollideWorldBounds(true);
@@ -91,7 +91,7 @@ gameScene.create = function(){
     //this.player3.body.setCollideWorldBounds(true);
 
     this.physics.add.collider(this.player,this.player2)
-   // this.physics.add.collider(this.bullet2,this.player2)
+   //this.physics.add.collider(this.bullet2,this.player2)
     //this.physics.add.collider(this.bullet2,this.player2)
     //this.physics.add.collider(this.player2,this.player3)
     //this.physics.add.collider(this.player,this.player3)
@@ -99,10 +99,11 @@ gameScene.create = function(){
     this.player.body.bounce.set(1)
     this.player2.body.bounce.set(1)
 
-    console.log("Logging this.player: ")
-    console.log(this.player)
+    //console.log("Logging this.player: ")
+    //console.log(this.player)
 
     this.velocity = 60
+    gameState.velocity = 60
 
     this.acceleration = 60
 
@@ -120,6 +121,25 @@ gameScene.create = function(){
 
 
 gameScene.update = function(){
+
+
+    if(this.player2Health<=0){
+        //alert("Player 2 killed this.player2Health<=0")
+       
+        this.player2Health = 100
+        this.randomX = Math.floor((Math.random()*315)+1)
+        this.randomY = Math.floor(((Math.random())*170)+1)
+
+        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+        
+        console.log("This.player2Health<=0. this is player2's current health: ",this.player2Health);
+
+        this.player2.x = this.randomX
+        this.player2.y = this.randomY
+
+    }
+       
+    
     /*
     this.player.x += .1;
     this.player2.x += -.1;
@@ -252,17 +272,22 @@ gameScene.update = function(){
             if(Phaser.Geom.Intersects.RectangleToRectangle(bullet2Rect,player2Rect)){
                 
                 console.log("Wave bullet hit");
+               
                 this.player2Health -=20;
-                return;
-                console.log("This is player2's current health: ");
-                console.log(this.player2Health);
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+                
 
               
             }
 
             if(this.player2Health<=0){
-                alert("Player 2 killed")
+                
                 this.player2Health = 100;
+                //gameState.player2Health =100
+                
                 this.randomX = Math.floor((Math.random()*315)+1)
                 this.randomY = Math.floor(((Math.random())*170)+1)
     
@@ -290,11 +315,11 @@ gameScene.update = function(){
             this.player.x = this.randomX
             this.player.y = this.randomY
 
-            console.log("Random number for x coordinate value: ")
-            console.log(this.randomX)
+            //console.log("Random number for x coordinate value: ")
+            //console.log(this.randomX)
 
-            console.log("Random number for y coordinate value: ")
-            console.log(this.randomY)
+            //console.log("Random number for y coordinate value: ")
+            //console.log(this.randomY)
 
             this.bullet2.visible = false
             
@@ -306,8 +331,8 @@ gameScene.update = function(){
         
 
         
-        console.log("this.cursors.space: ")
-        console.log(this.cursors.space)
+       // console.log("this.cursors.space: ")
+        //console.log(this.cursors.space)
 
         
 
@@ -327,6 +352,9 @@ gameScene.update = function(){
             this.radius = 1
             //this.bullet2.visible = false
 
+        
+           
+
             
 
 
@@ -338,9 +366,9 @@ gameScene.update = function(){
                 //this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
                 //this.bullet.angle = this.player.angle + 90
 
-                gameState.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-                gameState.bullet.angle = this.player.angle + 90
-                gameState.bullet.visible = true
+                this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                this.bullet.angle = this.player.angle + 90
+                this.bullet.visible = true
                // this.physics.add.collider(this.bullet,this.player2)
 
                 //this.bullet.visible = true
@@ -349,8 +377,43 @@ gameScene.update = function(){
                 //this.bullet.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*500)
                 //this.bullet.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*500)
 
-                gameState.bullet.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*500)
-                gameState.bullet.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*500)
+                
+                this.bullet.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*500)
+                this.bullet.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*500)
+
+               
+               
+                /*
+                //-------------------------------------------------------------------------------------
+                setInterval(function(){ 
+                    this.bullet.x += Math.cos((Math.PI/180)*this.player.angle)*1
+                    this.bullet.y += Math.sin((Math.PI/180)*this.player.angle)*1
+                 }, 100);
+                 //------------------------------------------------------------------------------------
+                 */
+
+              
+
+                //console.log("This is the bullet: ",this.bullet)
+                //console.log("This is player2: ",this.player2)
+               // console.log("Do this.bullet and player2 overlap?:",Phaser.Geom.Intersects.RectangleToRectangle(this.bullet.getBounds(),this.player2.getBounds()) )
+                //console.log("this.bullet.getBounds(): ",this.bullet.getBounds())
+               // console.log("this.player2.getBounds(): ",this.player2.getBounds())
+
+                 /*
+                if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet.getBounds(),this.player2.getBounds())){
+
+                    
+                    console.log("Straight bullet hit");
+                    alert("Straight bullet hit")
+                    
+                   this.player2Health -=20
+                    //alert(gameState.player2Health)
+                    
+                }*/
+
+                      
+              
                 
 
                
@@ -358,13 +421,7 @@ gameScene.update = function(){
                 
                // let bulletRect = this.bullet.getBounds();
                 //let player2Rect = this.player2.getBounds();
-                console.log("Bullet and player rectangles: ")
-
-                let bulletRect = gameState.bullet.getBounds();
-                let player2Rect = gameState.player2.getBounds();
-               
-                console.log(bulletRect)
-                console.log(player2Rect)
+                
                 //alert(Phaser.Geom.Intersects.RectangleToRectangle(bulletRect,player2Rect))
                 /*
                 if(Phaser.Geom.Intersects.RectangleToRectangle(bulletRect,player2Rect)){
@@ -389,8 +446,9 @@ gameScene.update = function(){
 
               if(this.velocity <=150){
 
-                console.log("this.velocity <=150:")
-                console.log(this.velocity)
+                
+                //console.log("this.velocity <=150:",this.velocity)
+                //alert(this.velocity)
 
 
                   this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
@@ -402,28 +460,48 @@ gameScene.update = function(){
                 this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
                 this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity)
 
-                console.log("this.velocity other than 150:")
-                console.log(this.velocity)
+                
+                //console.log("this.velocity other than 150:",this.velocity)
               }
 
 
             }
 
-           
-            setInterval(function(){ 
-                if(Phaser.Geom.Intersects.RectangleToRectangle(gameState.bullet.getBounds(),gameState.player2.getBounds())){
+         
 
-                    alert("Bullet hit")
-                    console.log("Wave bullet hit");
-                    this.player2Health -=20;
-                    console.log("This is player2's current health: ");
-                    console.log(this.player2Health);
+            /*
+            setInterval(function(){ 
+                console.log("This is the bullet: ",gameState.bullet)
+                console.log("This is player2: ",this.player2)
+
+                if(Phaser.Geom.Intersects.RectangleToRectangle(gameState.bullet.getBounds(),this.player2.getBounds())){
+
+                    
+                    console.log("Straight bullet hit");
+                    
+                    
+                   this.player2Health -=20
+                    //alert(gameState.player2Health)
+                    
                 }
-             }, 100);
-           
+             }, 100);*/
+             
+
+             if(this.player2Health<=0){
+                alert("Player 2 killed after a straight bullet")
+                this.player2Health = 100;
+                this.randomX = Math.floor((Math.random()*315)+1)
+                this.randomY = Math.floor(((Math.random())*170)+1)
+    
+                //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+               
+                console.log("This is player2's current health: ",this.player2Health);
+                this.player2.x = this.randomX
+                this.player2.y = this.randomY
+            }
             
 
-
+            /*
             console.log("This is the x coordinate of the player after the button is clicked: ")
             console.log(this.player.x)
 
@@ -438,7 +516,7 @@ gameScene.update = function(){
             //players current angle
             console.log("This is the players current angle when key is up: ")
             console.log(this.player.angle)
-
+            */
             /*
             if(this.velocity<80){
 
@@ -452,8 +530,8 @@ gameScene.update = function(){
             }*/
 
             
-            console.log("This is the current velocity: ");
-            console.log(this.velocity)
+            //console.log("This is the current velocity: ");
+            //console.log(this.velocity)
 
             /*
             console.log("This is the current acceleration: ");
@@ -464,21 +542,21 @@ gameScene.update = function(){
           //  this.player.setVelocityY(-this.velocity)
             //this.player.setVelocityY(Math.sin(((Math.PI/180)*this.player.angle)*500))
 
-            console.log("This is is the angle the player is facing in radians: ")
-            console.log((Math.PI/180)*this.player.angle)
+            //console.log("This is is the angle the player is facing in radians: ")
+            //console.log((Math.PI/180)*this.player.angle)
 
-            console.log("This is is Pi: ")
-            console.log(Math.PI)
+            //console.log("This is is Pi: ")
+            //console.log(Math.PI)
 
-            console.log("This is cosine of the angle in radians: ")
-            console.log(Math.cos((Math.PI/180)*this.player.angle))
+            //console.log("This is cosine of the angle in radians: ")
+            //console.log(Math.cos((Math.PI/180)*this.player.angle))
 
 
-            console.log("This is the x component of the velocity vector: ")
-            console.log(Math.cos((Math.PI/180)*this.player.angle)*60)
+            //console.log("This is the x component of the velocity vector: ")
+            //console.log(Math.cos((Math.PI/180)*this.player.angle)*60)
 
-            console.log("This is the y component of the velocity vector: ")
-            console.log(Math.sin((Math.PI/180)*this.player.angle)*60)
+            //console.log("This is the y component of the velocity vector: ")
+            //console.log(Math.sin((Math.PI/180)*this.player.angle)*60)
 
             
            
@@ -513,6 +591,19 @@ gameScene.update = function(){
 
     }
     */
+
+
+        
+    if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet.getBounds(),this.player2.getBounds())){
+
+                    
+        console.log("Straight bullet hit");
+       
+        
+       this.player2Health -=5
+        console.log("Player 2's current health is: ",this.player2Health)
+        
+    }
 
 
 };
