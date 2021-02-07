@@ -8,6 +8,7 @@ var app = express();
 
 var server = http.createServer(app);
 
+//var io = socketio.listen(server)
 var io = socketio(server)
 
 
@@ -33,8 +34,16 @@ app.get("/",function(request,response){
 // the argument socket is the particular client that connected.
 io.on("connection",function(socket){
 
-    console.log("This is the socket: ")
-    console.log(socket)
+    socket.on("disconnect",()=>{
+        console.log("Player disconnected from the game: ",socket.id)
+    })
+
+    console.log("This is the socket id: ",socket.id)
+
+    socket.on("newPlayer", (obj)=>{
+        console.log(`new player event recieved carrying the following object: ${obj}`)
+        socket.broadcast.emit("new player has entered the game",socket.id,obj)
+    })
 
 })
 

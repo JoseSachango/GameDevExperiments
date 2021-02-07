@@ -1,9 +1,32 @@
 //var Phaser = require("phaser") -> we used a cdn to connect the phaser library to our project, so we don't need to require anything here
 
+//import  {io}  from "socket.io-client";
+//const {io}  = require("socket.io-client")
+
 // create a new scene
 let gameScene = new Phaser.Scene("Game"); //-> gameScene is just a javascript object
 //game state object
 let gameState = {}
+//var socket = io();
+
+
+gameScene.init = function(){
+    this.socket = this.sys.game.globals.socket
+    this.listForSocketEvents = function (){
+        this.socket.on("new player has entered the game",function(socketId,sprite){
+            console.log(`new player ${socketId} has joined`)
+            console.log("This is the new players sprite: ",sprite)
+            gameState.newPlayer = sprite.key
+            console.log("The value of gameState.newPlayer inside of the init: ",gameState.newPlayer)
+        })
+    };;
+
+    this.listForSocketEvents()
+    gameState.currentPlayer =  `this.physics.add.sprite(400,180,"player",0)`
+}
+
+
+
 
 
 //load assets
@@ -13,6 +36,8 @@ gameScene.preload = function(){
     this.load.image("bullet","assets/bullet2.png")
 };
 
+
+
 // called once after preload ends
 gameScene.create = function(){
     // create bg sprite
@@ -20,12 +45,16 @@ gameScene.create = function(){
     bg = this.add.sprite(0,0,"background")
     bg.setPosition(320,180)
     //bg.setOrigin(0,0)
-
+    this.socket.emit("newPlayer",{key:gameState.currentPlayer})
    
     
     this.player = this.physics.add.sprite(50,180,"player",0)// placing player in the scene context so you can access it from different methods
     this.playerHealth = 100
-    this.player2 = this.physics.add.sprite(300,180,"player",0)
+    this.player2 = gameState.newPlayer
+    console.log("This is the value of gameState.newPlayer: ",gameState.newPlayer)
+    //--------------------------------------------------
+    //this.player2 = this.physics.add.sprite(300,180,"player",0)
+    //-----------------------------------------------------
     this.player2Health = 100
    // gameState.player2 = this.physics.add.sprite(300,180,"player",0)
     //gameState.player2Health = 100
@@ -98,18 +127,29 @@ gameScene.create = function(){
     //console.log(this.cursors.space);
 
     this.player.body.setCollideWorldBounds(true);
+    /*
+    //---------------------------------------
     this.player2.body.setCollideWorldBounds(true);
+    //---------------------------------------------
+    */
     
     //this.player3.body.setCollideWorldBounds(true);
-
+    /*
+    //------------------------------------------------
     this.physics.add.collider(this.player,this.player2)
+    //---------------------------------------------
+    */
    //this.physics.add.collider(this.bullet2,this.player2)
     //this.physics.add.collider(this.bullet2,this.player2)
     //this.physics.add.collider(this.player2,this.player3)
     //this.physics.add.collider(this.player,this.player3)
 
     this.player.body.bounce.set(1)
+    /*
+    //--------------------------------
     this.player2.body.bounce.set(1)
+    //--------------------------------
+    */
 
     //console.log("Logging this.player: ")
     //console.log(this.player)
@@ -134,7 +174,11 @@ gameScene.create = function(){
 
 gameScene.update = function(){
 
-
+    if(gameState.newPlayer){
+        this.player2 = eval(gameState.newPlayer)
+    }
+    /*
+    //-----------------------------------------
     if(this.player2Health<=0){
         //alert("Player 2 killed this.player2Health<=0")
        
@@ -150,6 +194,8 @@ gameScene.update = function(){
         this.player2.y = this.randomY
 
     }
+    //----------------------------------------------------
+    */
        
     
     /*
@@ -298,8 +344,14 @@ gameScene.update = function(){
 
                 
             let bullet2Rect = this.bullet2.getBounds();
+            /*
+            //--------------------------------------------
             let player2Rect = this.player2.getBounds();
+            //----------------------------------------------
+            */
 
+            /*
+            //----------------------------------------------------------------
             if(Phaser.Geom.Intersects.RectangleToRectangle(bullet2Rect,player2Rect)){
                 
                 console.log("Wave bullet2 hit");
@@ -337,8 +389,13 @@ gameScene.update = function(){
                
                 console.log("This is player2's current health: ",this.player2Health);
             }
-           
+            //---------------------------------------------------------------------------
+            */
 
+
+
+            /*
+            //----------------------------------------------------------------
             if(this.player2Health<=0){
                 
                 this.player2Health = 100;
@@ -352,6 +409,8 @@ gameScene.update = function(){
                 this.player2.x = this.randomX
                 this.player2.y = this.randomY
             }
+            //--------------------------------------------------------------
+            */
            
 
         };
@@ -549,8 +608,10 @@ gameScene.update = function(){
                     
                 }
              }, 100);*/
-             
 
+
+             /*
+             //--------------------------------------------------------
              if(this.player2Health<=0){
                 alert("Player 2 killed after a straight bullet")
                 this.player2Health = 100;
@@ -563,6 +624,8 @@ gameScene.update = function(){
                 this.player2.x = this.randomX
                 this.player2.y = this.randomY
             }
+            //-------------------------------------------------------------------
+            */
             
 
             /*
@@ -656,8 +719,8 @@ gameScene.update = function(){
     }
     */
 
-
-        
+    /*
+    //-----------------------------------------------------------------------
     if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet.getBounds(),this.player2.getBounds())){
 
                     
@@ -668,6 +731,9 @@ gameScene.update = function(){
         console.log("Player 2's current health is: ",this.player2Health)
         
     }
+
+    //-----------------------------------------------------------------------
+    */
 
 
 };
@@ -692,7 +758,18 @@ var config = {
 
 
 //create a new game, pass the configuration (config)
-var game = new Phaser.Game(config);
+
+class Game extends Phaser.Game {
+    constructor(){
+        super(config)
+        const socket = io();
+        this.globals = {socket}
+    }
+}
+
+
+var game = new Game()
+//var game = new Phaser.Game(config);
 
 
 
