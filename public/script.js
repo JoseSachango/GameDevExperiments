@@ -1,5 +1,7 @@
 //var Phaser = require("phaser") -> we used a cdn to connect the phaser library to our project, so we don't need to require anything here
 
+//const API = require("./utils/API");
+
 //import  {io}  from "socket.io-client";
 //const {io}  = require("socket.io-client")
 
@@ -7,22 +9,31 @@
 let gameScene = new Phaser.Scene("Game"); //-> gameScene is just a javascript object
 //game state object
 let gameState = {}
-//var socket = io();
 
 
 gameScene.init = function(){
+   
+    gameState.socket = io()
+    /*//A socket connection is established and a socket Id is made
     this.socket = this.sys.game.globals.socket
+
+
+    //listen for the socketId to be returned from the server
     this.listForSocketEvents = function (){
-        this.socket.on("new player has entered the game",function(socketId,sprite){
+        this.socket.on("new player has entered the game",function(socketId){
             console.log(`new player ${socketId} has joined`)
-            console.log("This is the new players sprite: ",sprite)
-            gameState.newPlayer = sprite.key
-            console.log("The value of gameState.newPlayer inside of the init: ",gameState.newPlayer)
+        })
+        this.socket.on("newPlayer",function(){
+            gameState.currentPlayer = this.physics.add.sprite(400,180,"player",0)
         })
     };;
 
     this.listForSocketEvents()
-    gameState.currentPlayer =  `this.physics.add.sprite(400,180,"player",0)`
+    //make and axios post request
+    //gameState.currentPlayer =  this.physics.add.sprite(400,180,"player",0)*/
+
+      //make and axios get request for all the other players that are active
+      
 }
 
 
@@ -45,15 +56,70 @@ gameScene.create = function(){
     bg = this.add.sprite(0,0,"background")
     bg.setPosition(320,180)
     //bg.setOrigin(0,0)
-    this.socket.emit("newPlayer",{key:gameState.currentPlayer})
+    
+
+   // var socket = io();
+    
+      const xCoordinate = Math.floor(Math.random()*640)+1
+      const yCoordinate = Math.floor(Math.random()*360)+1
+  
+     /*const playerData = {
+          x: xCoordinate,
+          y: yCoordinate,
+          
+      }*/
+
+      
+      gameState.socket.on("servermessage", (message)=>{
+        //console.log("This is player data sent from there server: ", message)
+
+        //this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
+       //this.player2.visible = true
+        //gameState.player2 =  this.physics.add.sprite(message.x,message.y,"player",0)
+        this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
+        console.log("This is player2's x coordinates: ",this.player2.x)
+        gameState.x = message.x
+        gameState.y = message.y
+        gameState.angle = message.angle
+
+        this.player2.angle = message.angle
+        //this.player2.x = message.x
+        //this.player2.y = message.y
+    } )
+  
+      //socket.emit("usermessage",playerData)
+     /* socket.on("servermessage", (message)=>{
+          console.log("This is player data sent from there server: ", message)
+
+          //this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
+         //this.player2.visible = true
+          gameState.player2 =  this.physics.add.sprite(message.x,message.y,"player",0)
+      } )*/
+
+
+  
+
+    //on connection make an axios post request to the database with the socketId and the coordinates of the players
+    /*axios.post("/api/players",playerData).then(results=>{
+        console.log("The post request was successful")
+        socket.emit("newPlayer",playerData)
+    }).catch(err=>{
+        console.log("There was an error trying to post the player's data to the database:",err)
+        console.log("This is the player data I was trying to post before the post failed",playerData)
+    })*/
+  
+    
    
     
     this.player = this.physics.add.sprite(50,180,"player",0)// placing player in the scene context so you can access it from different methods
     this.playerHealth = 100
-    this.player2 = gameState.newPlayer
-    console.log("This is the value of gameState.newPlayer: ",gameState.newPlayer)
+    this.player.visible = true
+    //this.player2 = gameState.newPlayer
+    //console.log("This is the value of gameState.newPlayer: ",gameState.newPlayer)
     //--------------------------------------------------
     //this.player2 = this.physics.add.sprite(300,180,"player",0)
+    //this.player2 = gameState.player2
+    console.log("This is gameState.player2: ",gameState.player2)
     //-----------------------------------------------------
     this.player2Health = 100
    // gameState.player2 = this.physics.add.sprite(300,180,"player",0)
@@ -174,9 +240,26 @@ gameScene.create = function(){
 
 gameScene.update = function(){
 
-    if(gameState.newPlayer){
-        this.player2 = eval(gameState.newPlayer)
+    
+
+    
+
+    var playerData = {
+        x: this.player.x,
+        y: this.player.y,
+        angle: this.player.angle
+        
     }
+
+    gameState.socket.emit("usermessage",playerData)
+
+    if(this.player2){
+
+        this.player2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*this.velocity)
+        this.player2.setVelocityY(Math.sin((Math.PI/180)*this.player2.angle)*this.velocity)
+    }
+
+    
     /*
     //-----------------------------------------
     if(this.player2Health<=0){
@@ -762,8 +845,7 @@ var config = {
 class Game extends Phaser.Game {
     constructor(){
         super(config)
-        const socket = io();
-        this.globals = {socket}
+        
     }
 }
 
