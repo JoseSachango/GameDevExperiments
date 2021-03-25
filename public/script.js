@@ -69,23 +69,41 @@ gameScene.create = function(){
           
       }*/
 
+      this.player2 = this.physics.add.sprite(390,180,"player",0)
+      this.player2.body.setCollideWorldBounds(true);
+      this.player2.body.bounce.set(1)
+      this.player2.visible = false
       
       gameState.socket.on("servermessage", (message)=>{
         //console.log("This is player data sent from there server: ", message)
 
         //this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
-       //this.player2.visible = true
+
+        /* ******************You Shouldn't create a new sprite every time the client recieves this "servermessage" you should only 
+        create the player2 sprite once using some action */
+        this.player2.visible = true
+
+
+
         //gameState.player2 =  this.physics.add.sprite(message.x,message.y,"player",0)
-        this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
+        //this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
+        //this.player2.body.setCollideWorldBounds(true);
         console.log("This is player2's x coordinates: ",this.player2.x)
         gameState.x = message.x
         gameState.y = message.y
         gameState.angle = message.angle
 
-        this.player2.angle = message.angle
+        //this.player2.angle = message.angle
         //this.player2.x = message.x
         //this.player2.y = message.y
     } )
+
+    gameState.socket.on("player rotation", (message)=>{
+        this.player2.setVelocityX(Math.cos((Math.PI/180)*message.angle)*this.velocity)
+        this.player2.setVelocityY(Math.cos((Math.PI/180)*message.angle)*this.velocity)
+
+    })
+
   
       //socket.emit("usermessage",playerData)
      /* socket.on("servermessage", (message)=>{
@@ -251,13 +269,10 @@ gameScene.update = function(){
         
     }
 
-    gameState.socket.emit("usermessage",playerData)
+    gameState.socket.emit("create player",playerData)
+    
 
-    if(this.player2){
-
-        this.player2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*this.velocity)
-        this.player2.setVelocityY(Math.sin((Math.PI/180)*this.player2.angle)*this.velocity)
-    }
+    
 
     
     /*
@@ -349,6 +364,13 @@ gameScene.update = function(){
 
     if(this.cursors.space.isDown){
 
+        var playerDataAngle = {
+            angle: this.player.angle
+        }
+        gameState.socket.emit("rotate player", playerDataAngle)
+
+        
+        
        
 
        //if the space bar is down for longer than 2 seconds start spinning else fire bullet

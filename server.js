@@ -68,17 +68,23 @@ io.on("connection",function(socket){
 
 
 
-    socket.on("usermessage", function (userMessageObj) {
+    socket.on("create player", function (userMessageObj) {
 
         // ("This is the userMessage that's passed in as an argument to the socket.on listener: ")
         // (userMessageObj)
 
 
 
-        //console.log("This is the playerData: ",userMessageObj)
+        console.log("This is the playerData: ",userMessageObj)
 
         socket.broadcast.emit("servermessage", userMessageObj)
     });
+
+    socket.on("rotate player", function (userMessageObj){
+
+
+        socket.broadcast.emit("player rotation", userMessageObj)
+    })
 
     /*
     socket.on("newPlayer", (obj)=>{
