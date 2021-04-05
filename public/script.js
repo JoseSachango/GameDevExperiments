@@ -99,9 +99,16 @@ gameScene.create = function(){
     } )
 
     gameState.socket.on("player rotation", (message)=>{
+        
+        this.player2.angle = message.angle
+        //this.player2.setVelocityX(Math.cos((Math.PI/180)*message.angle)*this.velocity)
+        //this.player2.setVelocityY(Math.cos((Math.PI/180)*message.angle)*this.velocity)
+
+    })
+
+    gameState.socket.on("player direction", (message)=>{
         this.player2.setVelocityX(Math.cos((Math.PI/180)*message.angle)*this.velocity)
         this.player2.setVelocityY(Math.cos((Math.PI/180)*message.angle)*this.velocity)
-
     })
 
   
@@ -194,6 +201,7 @@ gameScene.create = function(){
 
 
     this.player.angle = 180
+    this.player2.angle = 180
 
     //players current angle
     //console.log("This is the players current angle: ")
@@ -364,10 +372,7 @@ gameScene.update = function(){
 
     if(this.cursors.space.isDown){
 
-        var playerDataAngle = {
-            angle: this.player.angle
-        }
-        gameState.socket.emit("rotate player", playerDataAngle)
+        
 
         
         
@@ -387,7 +392,12 @@ gameScene.update = function(){
 
         //Conditional statement so the player doesnt turn every time it fires
         if(this.count > 12){
-            this.player.angle += 5           
+            this.player.angle += 5  
+
+            var playerDataAngle = {
+                angle: this.player.angle
+            }
+            gameState.socket.emit("rotate player", playerDataAngle)         
         }
 
         //Conditional statement that causes a bullet to spin around the player 
