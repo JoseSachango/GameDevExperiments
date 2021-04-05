@@ -75,7 +75,7 @@ io.on("connection",function(socket){
 
 
 
-        console.log("This is the playerData: ",userMessageObj)
+        //console.log("This is the playerData: ",userMessageObj)
 
         socket.broadcast.emit("servermessage", userMessageObj)
     });
@@ -84,6 +84,14 @@ io.on("connection",function(socket){
 
 
         socket.broadcast.emit("player rotation", userMessageObj)
+    });
+
+
+    
+    socket.on("move player", function (message){
+
+        console.log("Direction angle recieved: ", message )
+        socket.broadcast.emit("player direction", message)
     })
 
     /*

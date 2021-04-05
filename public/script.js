@@ -88,9 +88,7 @@ gameScene.create = function(){
         //gameState.player2 =  this.physics.add.sprite(message.x,message.y,"player",0)
         //this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
         //this.player2.body.setCollideWorldBounds(true);
-        console.log("This is player2's x coordinates: ",this.player2.x)
-        gameState.x = message.x
-        gameState.y = message.y
+       
         gameState.angle = message.angle
 
         //this.player2.angle = message.angle
@@ -107,8 +105,9 @@ gameScene.create = function(){
     })
 
     gameState.socket.on("player direction", (message)=>{
-        this.player2.setVelocityX(Math.cos((Math.PI/180)*message.angle)*this.velocity)
-        this.player2.setVelocityY(Math.cos((Math.PI/180)*message.angle)*this.velocity)
+        console.log("This is the gameState.angle value: ", message)
+        this.player2.setVelocityX(Math.cos((Math.PI/180)*message)*this.velocity)
+        this.player2.setVelocityY(Math.sin((Math.PI/180)*message)*this.velocity)
     })
 
   
@@ -271,8 +270,7 @@ gameScene.update = function(){
     
 
     var playerData = {
-        x: this.player.x,
-        y: this.player.y,
+     
         angle: this.player.angle
         
     }
@@ -397,6 +395,7 @@ gameScene.update = function(){
             var playerDataAngle = {
                 angle: this.player.angle
             }
+            gameState.angle = this.player.angle
             gameState.socket.emit("rotate player", playerDataAngle)         
         }
 
@@ -689,19 +688,23 @@ gameScene.update = function(){
                 //alert(this.velocity)
 
 
+               
+                    gameState.socket.emit("move player", this.player.angle)
                   this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
                   this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity)
 
                   this.velocity +=20
 
               }else {
+
+                  gameState.socket.emit("move player", this.player.angle)
                 this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
                 this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity)
 
                 
                 //console.log("this.velocity other than 150:",this.velocity)
               }
-
+              
 
             }
 
