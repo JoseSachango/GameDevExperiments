@@ -55,24 +55,47 @@ gameScene.create = function(){
 
     bg = this.add.sprite(0,0,"background")
     bg.setPosition(320,180)
-    //bg.setOrigin(0,0)
-    
-
-   // var socket = io();
-    
-      const xCoordinate = Math.floor(Math.random()*640)+1
-      const yCoordinate = Math.floor(Math.random()*360)+1
-  
-     /*const playerData = {
-          x: xCoordinate,
-          y: yCoordinate,
-          
-      }*/
-
-      this.player2 = this.physics.add.sprite(390,180,"player",0)
+   
+        /*
+      this.player2 = this.physics.add.sprite(430,340,"player",0)
       this.player2.body.setCollideWorldBounds(true);
       this.player2.body.bounce.set(1)
-      this.player2.visible = false
+      this.player2.visible = false */
+
+      gameState.socket.on("playerData", (message)=>{
+
+        
+        for(const i in message){
+            console.log("This is message[i]: ",message[i].playerName)
+            switch(message[i].playerName) {
+
+                case "player 1":
+                  this.player = this.physics.add.sprite(50,50,"player",0)// placing player in the scene context so you can access it from different methods
+                  this.playerHealth = 100
+                  this.player.visible = true
+                    break;
+                case "player 2":
+                  this.player2 = this.physics.add.sprite(520,50,"player",0)// placing player in the scene context so you can access it from different methods
+                  this.playerHealth2 = 100
+                  this.player2.visible = true
+                    break;
+                case "player 3":
+                  this.player3 = this.physics.add.sprite(50,330,"player",0)// placing player in the scene context so you can access it from different methods
+                  this.playerHealth3 = 100
+                  this.player3.visible = true
+                    break;
+                case "player 4":
+                  this.player4 = this.physics.add.sprite(520,330,"player",0)// placing player in the scene context so you can access it from different methods
+                  this.playerHealth4 = 100
+                  this.player4.visible = true
+                    break;
+  
+              default:
+                  break;
+            }
+
+        }
+      })
       
       gameState.socket.on("servermessage", (message)=>{
         //console.log("This is player data sent from there server: ", message)
@@ -96,19 +119,21 @@ gameScene.create = function(){
         //this.player2.y = message.y
     } )
 
+    /*
     gameState.socket.on("player rotation", (message)=>{
         
         this.player2.angle = message.angle
         //this.player2.setVelocityX(Math.cos((Math.PI/180)*message.angle)*this.velocity)
         //this.player2.setVelocityY(Math.cos((Math.PI/180)*message.angle)*this.velocity)
 
-    })
+    }) */
 
+    /*
     gameState.socket.on("player direction", (message)=>{
         console.log("This is the gameState.angle value: ", message)
         this.player2.setVelocityX(Math.cos((Math.PI/180)*message)*this.velocity)
         this.player2.setVelocityY(Math.sin((Math.PI/180)*message)*this.velocity)
-    })
+    })*/
 
   
       //socket.emit("usermessage",playerData)
@@ -133,11 +158,13 @@ gameScene.create = function(){
     })*/
   
     
-   
+   /*
     
     this.player = this.physics.add.sprite(50,180,"player",0)// placing player in the scene context so you can access it from different methods
     this.playerHealth = 100
     this.player.visible = true
+
+    */
     //this.player2 = gameState.newPlayer
     //console.log("This is the value of gameState.newPlayer: ",gameState.newPlayer)
     //--------------------------------------------------
@@ -151,6 +178,10 @@ gameScene.create = function(){
     //this.player3 = this.physics.add.sprite(500,180,"player",0)
     //this.count2 = 0
     //this.radius = 100
+
+ 
+
+    /* Add this back
     this.bullet2 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
     this.bullet2.visible = false
     this.bullet3 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
@@ -161,11 +192,21 @@ gameScene.create = function(){
     this.bullet5.visible = false
     this.bullet6 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
     this.bullet6.visible = false
+
+        */
+
+
+
     //gameState.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
     //gameState.bullet.visible = false
+
+
+    /* add this back
     this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
     this.bullet.angle = this.player.angle + 90
     this.bullet.visible = false
+
+    */
 
 
   
@@ -198,9 +239,12 @@ gameScene.create = function(){
    // this.randomX = Math.floor((Math.random()*315)+1)
    // this.randomY = Math.floor(((Math.random())*170)+1)
 
+   /* add this back
 
     this.player.angle = 180
     this.player2.angle = 180
+
+    */
 
     //players current angle
     //console.log("This is the players current angle: ")
@@ -217,7 +261,12 @@ gameScene.create = function(){
     //console.log("This is the *this.cursors.space* object: ")
     //console.log(this.cursors.space);
 
+/* add this back
+
     this.player.body.setCollideWorldBounds(true);
+
+*/
+
     /*
     //---------------------------------------
     this.player2.body.setCollideWorldBounds(true);
@@ -235,7 +284,10 @@ gameScene.create = function(){
     //this.physics.add.collider(this.player2,this.player3)
     //this.physics.add.collider(this.player,this.player3)
 
+    /* add this back
     this.player.body.bounce.set(1)
+
+    */
     /*
     //--------------------------------
     this.player2.body.bounce.set(1)
@@ -267,17 +319,20 @@ gameScene.update = function(){
 
     
 
-    
+    gameState.socket.on("playerData",function(message){
+        console.log("This is the current player: ",message)
+    })
 
+    /* add this back
     var playerData = {
      
         angle: this.player.angle
         
-    }
+    } 
 
     gameState.socket.emit("create player",playerData)
     
-
+    */
     
 
     

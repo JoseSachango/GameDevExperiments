@@ -47,15 +47,26 @@ app.get("/",function(request,response){
 })*/
 
 
+var playerData = {};
+var number = 1
+
 // Run when a client connects using the command -> var socketio = io();
 // the argument socket is the particular client that connected.
 io.on("connection",function(socket){
 
-   
+    
+    playerData[socket.id] = {playerName:`player ${number}`}
+    number += 1
+    if(number > 4){
+        number = 1
+    }
 
+    io.emit("playerData", playerData)
 
     socket.on("disconnect",()=>{
         console.log("Player disconnected from the game: ",socket.id)
+        delete playerData[socket.id]
+        console.log("This is the current player information: ",playerData)
         /*
         axios.delete("/api/players/",{socketId: socket.id.toString()}).then(results=>{
             console.log("The delete axios request was performed successfully",results)
