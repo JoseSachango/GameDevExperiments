@@ -142,7 +142,7 @@ io.on("connection",function(socket){
                 playerData[i].bulletAngle = message.bulletAngle
                 playerData[i].bulletVisible = message.bulletVisible
 
-                io.emit("PlayerOutputputResetCount", playerData[i])
+                io.emit("PlayerOutputBullets", playerData[i])
             }
         }
     })
