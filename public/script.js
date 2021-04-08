@@ -158,6 +158,322 @@ gameScene.create = function(){
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
+    gameState.socket.on("PlayerOutputAngle", (message)=>{
+                
+        switch(message.playerName){
+            case "player 1":
+                this.player.angle +=5
+                break;
+            case "player 2":
+              this.player2.angle +=5
+                break;
+            case "player 3":
+              this.player3.angle +=5
+                break;
+            case "player 4":
+              this.player4.angle +=5
+                break;
+            default:
+                break;
+          
+
+          
+        }
+    
+})      
+
+
+//---------------------------------------------------------------------------
+
+gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
+                    
+                        
+    switch(message.playerName){
+        case "player 1":
+            this.bullet2player.visible = true
+            this.bullet3player.visible = true
+            this.bullet4player.visible = true
+            this.bullet5player.visible = true
+            this.bullet2player.x  =  ((Math.cos((Math.PI/180)*this.count2player)*this.radiusplayer)+this.player.x)
+            this.bullet2player.y =  ((Math.sin((Math.PI/180)*this.count2player)*this.radiusplayer)+this.player.y)
+            this.bullet3player.x  =  ((Math.cos((Math.PI/180)*(this.count2player+90))*this.radiusplayer)+this.player.x)
+            this.bullet3player.y =  ((Math.sin((Math.PI/180)*(this.count2player+90))*this.radiusplayer)+this.player.y)
+            this.bullet4player.x  =  ((Math.cos((Math.PI/180)*(this.count2player+180))*this.radiusplayer)+this.player.x)
+            this.bullet4player.y =  ((Math.sin((Math.PI/180)*(this.count2player+180))*this.radiusplayer)+this.player.y)
+            this.bullet5player.x  =  ((Math.cos((Math.PI/180)*(this.count2player+270))*this.radiusplayer)+this.player.x)
+            this.bullet5player.y =  ((Math.sin((Math.PI/180)*(this.count2player+270))*this.radiusplayer)+this.player.y)
+            this.count2player +=10
+            this.radiusplayer += 2
+            console.log("The wave bullets should be working. Here's the count2: ", this.count2player)
+            console.log("Here's the radius: ",this.radiusplayer)
+            /*
+            if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player.getBounds(),this.player2.getBounds())){
+
+                console.log("Wave bullet2 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+                
+
+              
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player.getBounds(),this.player2.getBounds())){
+                console.log("Wave bullet3 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player.getBounds(),this.player2.getBounds())){
+                console.log("Wave bullet4 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player.getBounds(),this.player2.getBounds())){
+                console.log("Wave bullet5 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }
+            if(this.playerHealth<=0){
+
+                this.playerHealth = 100;
+                //gameState.player2Health =100
+                
+                this.randomX = Math.floor((Math.random()*315)+1)
+                this.randomY = Math.floor(((Math.random())*170)+1)
+    
+                //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+    
+                this.player.x = this.randomX
+                this.player.y = this.randomY
+            }*/
+            break;
+        case "player 2":
+            this.bullet2player2.visible = true
+            this.bullet3player2.visible = true
+            this.bullet4player2.visible = true
+            this.bullet5player2.visible = true
+            this.bullet2player2.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player2.x)
+            this.bullet2player2.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player2.y)
+            this.bullet3player2.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player2.x)
+            this.bullet3player2.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player2.y)
+            this.bullet4player2.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player2.x)
+            this.bullet4player2.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player2.y)
+            this.bullet5player2.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player2.x)
+            this.bullet5player2.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player2.y)
+            this.count2 +=10
+            this.radius += 2
+            /*
+            if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player2.getBounds(),this.player.getBounds())){
+
+                console.log("Wave bullet2 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+                
+
+              
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player2.getBounds(),this.player.getBounds())){
+                console.log("Wave bullet3 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player2.getBounds(),this.player.getBounds())){
+                console.log("Wave bullet4 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player2.getBounds(),this.player.getBounds())){
+                console.log("Wave bullet5 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }
+            if(this.player2Health<=0){
+
+                this.player2Health = 100;
+                //gameState.player2Health =100
+                
+                this.randomX = Math.floor((Math.random()*315)+1)
+                this.randomY = Math.floor(((Math.random())*170)+1)
+    
+                //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+    
+                this.player2.x = this.randomX
+                this.player2.y = this.randomY
+            }*/
+            break;
+        case "player 3":
+            this.bullet2player3.visible = true
+            this.bullet3player3.visible = true
+            this.bullet4player3.visible = true
+            this.bullet5player3.visible = true
+            this.bullet2player3.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player3.x)
+            this.bullet2player3.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player3.y)
+            this.bullet3player3.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player3.x)
+            this.bullet3player3.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player3.y)
+            this.bullet4player3.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player3.x)
+            this.bullet4player3.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player3.y)
+            this.bullet5player3.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player3.x)
+            this.bullet5player3.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player3.y)
+            this.count2 +=10
+            this.radius += 2
+            /*
+            if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player3.getBounds(),this.player2.getBounds())){
+
+                console.log("Wave bullet2 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+                
+
+              
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player3.getBounds(),this.player2.getBounds())){
+                console.log("Wave bullet3 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player3.getBounds(),this.player2.getBounds())){
+                console.log("Wave bullet4 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player3.getBounds(),this.player2.getBounds())){
+                console.log("Wave bullet5 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }
+            if(this.player3Health<=0){
+
+                this.player3Health = 100;
+                //gameState.player2Health =100
+                
+                this.randomX = Math.floor((Math.random()*315)+1)
+                this.randomY = Math.floor(((Math.random())*170)+1)
+    
+                //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+    
+                this.player3.x = this.randomX
+                this.player3.y = this.randomY
+            }*/
+            break;
+
+        case "player 4":
+            this.bullet2player4.visible = true
+            this.bullet3player4.visible = true
+            this.bullet4player4.visible = true
+            this.bullet5player4.visible = true
+            this.bullet2player4.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player4.x)
+            this.bullet2player4.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player4.y)
+            this.bullet3player4.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player4.x)
+            this.bullet3player4.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player4.y)
+            this.bullet4player4.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player4.x)
+            this.bullet4player4.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player4.y)
+            this.bullet5player4.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player4.x)
+            this.bullet5player4.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player4.y)
+            this.count2 +=10
+            this.radius += 2
+            /*
+            if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player4.getBounds(),this.player3.getBounds())){
+
+                console.log("Wave bullet2 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+                
+
+              
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player4.getBounds(),this.player3.getBounds())){
+                console.log("Wave bullet3 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player4.getBounds(),this.player3.getBounds())){
+                console.log("Wave bullet4 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player4.getBounds(),this.player3.getBounds())){
+                console.log("Wave bullet5 hit");
+               
+                this.player2Health -=20;
+                
+                
+               
+                console.log("This is player2's current health: ",this.player2Health);
+            }
+            if(this.player4Health<=0){
+
+                this.player4Health = 100;
+                //gameState.player2Health =100
+                
+                this.randomX = Math.floor((Math.random()*315)+1)
+                this.randomY = Math.floor(((Math.random())*170)+1)
+    
+                //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+    
+                this.player4.x = this.randomX
+                this.player4.y = this.randomY
+            }*/
+            break;
+
+        default:
+            break;
+      
+
+      
+    }
+
+
+})
+
+
+//---------------------------------------------------------------------------
+
     this.count = 0
    
     this.downFlag = false;
@@ -191,29 +507,7 @@ gameScene.update = function(){
             
             gameState.socket.emit("PlayerInputAngle", playerDataAngle)   
 
-            gameState.socket.on("PlayerOutputAngle", (message)=>{
-                
-                    switch(message.playerName){
-                        case "player 1":
-                            this.player.angle +=5
-                            break;
-                        case "player 2":
-                          this.player2.angle +=5
-                            break;
-                        case "player 3":
-                          this.player3.angle +=5
-                            break;
-                        case "player 4":
-                          this.player4.angle +=5
-                            break;
-                        default:
-                            break;
-                      
-      
-                      
-                    }
-                
-            })      
+            
         }
 
         //Conditional statement that causes a bullet to spin around the player 
@@ -227,285 +521,7 @@ gameScene.update = function(){
                 gameState.socket.emit("PlayerInputBulletsWave", {} )
 
 
-                gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
-                    
-                        
-                            switch(message.playerName){
-                                case "player 1":
-                                    this.bullet2player.visible = true
-                                    this.bullet3player.visible = true
-                                    this.bullet4player.visible = true
-                                    this.bullet5player.visible = true
-                                    this.bullet2player.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player.x)
-                                    this.bullet2player.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player.y)
-                                    this.bullet3player.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player.x)
-                                    this.bullet3player.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player.y)
-                                    this.bullet4player.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player.x)
-                                    this.bullet4player.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player.y)
-                                    this.bullet5player.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player.x)
-                                    this.bullet5player.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player.y)
-                                    
-                                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player.getBounds(),this.player2.getBounds())){
-                
-                                        console.log("Wave bullet2 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                        
-                        
-                                      
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player.getBounds(),this.player2.getBounds())){
-                                        console.log("Wave bullet3 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player.getBounds(),this.player2.getBounds())){
-                                        console.log("Wave bullet4 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player.getBounds(),this.player2.getBounds())){
-                                        console.log("Wave bullet5 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }
-                                    if(this.playerHealth<=0){
-                
-                                        this.playerHealth = 100;
-                                        //gameState.player2Health =100
-                                        
-                                        this.randomX = Math.floor((Math.random()*315)+1)
-                                        this.randomY = Math.floor(((Math.random())*170)+1)
-                            
-                                        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
-                            
-                                        this.player.x = this.randomX
-                                        this.player.y = this.randomY
-                                    }
-                                    break;
-                                case "player 2":
-                                    this.bullet2player2.visible = true
-                                    this.bullet3player2.visible = true
-                                    this.bullet4player2.visible = true
-                                    this.bullet5player2.visible = true
-                                    this.bullet2player2.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player2.x)
-                                    this.bullet2player2.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player2.y)
-                                    this.bullet3player2.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player2.x)
-                                    this.bullet3player2.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player2.y)
-                                    this.bullet4player2.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player2.x)
-                                    this.bullet4player2.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player2.y)
-                                    this.bullet5player2.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player2.x)
-                                    this.bullet5player2.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player2.y)
-                                    this.count2 +=10
-                                    this.radius += 2
-                                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player2.getBounds(),this.player.getBounds())){
-                
-                                        console.log("Wave bullet2 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                        
-                        
-                                      
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player2.getBounds(),this.player.getBounds())){
-                                        console.log("Wave bullet3 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player2.getBounds(),this.player.getBounds())){
-                                        console.log("Wave bullet4 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player2.getBounds(),this.player.getBounds())){
-                                        console.log("Wave bullet5 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }
-                                    if(this.player2Health<=0){
-                
-                                        this.player2Health = 100;
-                                        //gameState.player2Health =100
-                                        
-                                        this.randomX = Math.floor((Math.random()*315)+1)
-                                        this.randomY = Math.floor(((Math.random())*170)+1)
-                            
-                                        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
-                            
-                                        this.player2.x = this.randomX
-                                        this.player2.y = this.randomY
-                                    }
-                                    break;
-                                case "player 3":
-                                    this.bullet2player3.visible = true
-                                    this.bullet3player3.visible = true
-                                    this.bullet4player3.visible = true
-                                    this.bullet5player3.visible = true
-                                    this.bullet2player3.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player3.x)
-                                    this.bullet2player3.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player3.y)
-                                    this.bullet3player3.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player3.x)
-                                    this.bullet3player3.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player3.y)
-                                    this.bullet4player3.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player3.x)
-                                    this.bullet4player3.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player3.y)
-                                    this.bullet5player3.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player3.x)
-                                    this.bullet5player3.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player3.y)
-                                    this.count2 +=10
-                                    this.radius += 2
-                                    
-                                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player3.getBounds(),this.player2.getBounds())){
-                
-                                        console.log("Wave bullet2 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                        
-                        
-                                      
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player3.getBounds(),this.player2.getBounds())){
-                                        console.log("Wave bullet3 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player3.getBounds(),this.player2.getBounds())){
-                                        console.log("Wave bullet4 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player3.getBounds(),this.player2.getBounds())){
-                                        console.log("Wave bullet5 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }
-                                    if(this.player3Health<=0){
-                
-                                        this.player3Health = 100;
-                                        //gameState.player2Health =100
-                                        
-                                        this.randomX = Math.floor((Math.random()*315)+1)
-                                        this.randomY = Math.floor(((Math.random())*170)+1)
-                            
-                                        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
-                            
-                                        this.player3.x = this.randomX
-                                        this.player3.y = this.randomY
-                                    }
-                                    break;
-
-                                case "player 4":
-                                    this.bullet2player4.visible = true
-                                    this.bullet3player4.visible = true
-                                    this.bullet4player4.visible = true
-                                    this.bullet5player4.visible = true
-                                    this.bullet2player4.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player4.x)
-                                    this.bullet2player4.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player4.y)
-                                    this.bullet3player4.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player4.x)
-                                    this.bullet3player4.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player4.y)
-                                    this.bullet4player4.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player4.x)
-                                    this.bullet4player4.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player4.y)
-                                    this.bullet5player4.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player4.x)
-                                    this.bullet5player4.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player4.y)
-                                    this.count2 +=10
-                                    this.radius += 2
-                                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player4.getBounds(),this.player3.getBounds())){
-                
-                                        console.log("Wave bullet2 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                        
-                        
-                                      
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player4.getBounds(),this.player3.getBounds())){
-                                        console.log("Wave bullet3 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player4.getBounds(),this.player3.getBounds())){
-                                        console.log("Wave bullet4 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player4.getBounds(),this.player3.getBounds())){
-                                        console.log("Wave bullet5 hit");
-                                       
-                                        this.player2Health -=20;
-                                        
-                                        
-                                       
-                                        console.log("This is player2's current health: ",this.player2Health);
-                                    }
-                                    if(this.player4Health<=0){
-                
-                                        this.player4Health = 100;
-                                        //gameState.player2Health =100
-                                        
-                                        this.randomX = Math.floor((Math.random()*315)+1)
-                                        this.randomY = Math.floor(((Math.random())*170)+1)
-                            
-                                        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
-                            
-                                        this.player4.x = this.randomX
-                                        this.player4.y = this.randomY
-                                    }
-                                    break;
-
-                                default:
-                                    break;
-                              
-              
-                              
-                            }
-                        
-                    
-                })
+    
 
 
                 
