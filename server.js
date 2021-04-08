@@ -55,18 +55,116 @@ var number = 1
 io.on("connection",function(socket){
 
     
-    playerData[socket.id] = {playerName:`player ${number}`}
+   
+
+    
+
+    playerData[socket.id] = {playerName:`player ${number}`,playerCount:0,playerRadius:2,playerCount2:0,playerRadius2:100,playerVelocity:60,playerAcceleration:60}
     number += 1
     if(number > 4){
         number = 1
     }
+
+
+    socket.on("PlayerInputAngle", (message)=>{
+        for(const i in playerData){
+
+            if(socket.id === i){
+
+                playerData[i].playerAngleIncrease = message.angleIncrease
+
+                io.emit("PlayerOutputAngle", playerData[i])
+                
+
+            }
+          
+            
+        }
+        
+    })
+
+    socket.on("PlayerInputBulletsWave", (message)=>{
+        for(const i in playerData){
+
+            if(socket.id === i){
+
+                
+
+                io.emit("PlayerOutputBulletsWave", playerData[i])
+                
+
+            }
+          
+            
+        }
+    })
+
+    socket.on("PlayerInputNewCoordinates", (message)=>{
+
+        
+
+        for(const i in playerData){
+
+            if(socket.id === i){
+
+                playerData[i].newCoordinates = message
+                
+                io.emit("PlayerOutputNewCoordinates", playerData[i])
+                
+
+            }
+          
+            
+        }
+    })
+
+    socket.on("PlayerInputputResetCount", (message)=>{
+
+        for(const i in playerData){
+
+            if(socket.id === i){
+
+                playerData[i].bullet = message.count
+                playerData[i].count2 = message.count2
+                playerData[i].radius = message.radius
+
+                io.emit("PlayerOutputputResetCount", playerData[i])
+            }
+        }
+    })
+
+    socket.on("PlayerInputBullets", (message)=>{
+        for(const i in playerData){
+
+            if(socket.id === i){
+
+                playerData[i].bullet = message.bullet
+                playerData[i].bulletAngle = message.bulletAngle
+                playerData[i].bulletVisible = message.bulletVisible
+
+                io.emit("PlayerOutputputResetCount", playerData[i])
+            }
+        }
+    })
+
+    socket.on("PlayerInputVelocity", (message)=>{
+        for(const i in playerData){
+
+            if(socket.id === i){
+
+              
+
+                io.emit("PlayerOutputputResetCount", playerData[i])
+            }
+        }
+    })
 
     io.emit("playerData", playerData)
 
     socket.on("disconnect",()=>{
         console.log("Player disconnected from the game: ",socket.id)
         delete playerData[socket.id]
-        console.log("This is the current player information: ",playerData)
+        console.log("This is the current player information stored in playerData: ",playerData)
         /*
         axios.delete("/api/players/",{socketId: socket.id.toString()}).then(results=>{
             console.log("The delete axios request was performed successfully",results)
@@ -79,23 +177,9 @@ io.on("connection",function(socket){
 
 
 
-    socket.on("create player", function (userMessageObj) {
+   
 
-        // ("This is the userMessage that's passed in as an argument to the socket.on listener: ")
-        // (userMessageObj)
-
-
-
-        //console.log("This is the playerData: ",userMessageObj)
-
-        socket.broadcast.emit("servermessage", userMessageObj)
-    });
-
-    socket.on("rotate player", function (userMessageObj){
-
-
-        socket.broadcast.emit("player rotation", userMessageObj)
-    });
+    
 
 
     

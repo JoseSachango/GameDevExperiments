@@ -14,25 +14,124 @@ let gameState = {}
 gameScene.init = function(){
    
     gameState.socket = io()
-    /*//A socket connection is established and a socket Id is made
-    this.socket = this.sys.game.globals.socket
 
+    gameState.socket.on("playerData", (message)=>{
 
-    //listen for the socketId to be returned from the server
-    this.listForSocketEvents = function (){
-        this.socket.on("new player has entered the game",function(socketId){
-            console.log(`new player ${socketId} has joined`)
-        })
-        this.socket.on("newPlayer",function(){
-            gameState.currentPlayer = this.physics.add.sprite(400,180,"player",0)
-        })
-    };;
+        
+        for(const i in message){
+            console.log("This is message[i]: ",message[i])
+            switch(message[i].playerName) {
 
-    this.listForSocketEvents()
-    //make and axios post request
-    //gameState.currentPlayer =  this.physics.add.sprite(400,180,"player",0)*/
+                case "player 1":
+                  this.player = this.physics.add.sprite(50,50,"player",0)// placing player in the scene context so you can access it from different methods
+                  this.playerHealth = 100
+                  this.player.visible = true
+                  this.player.body.setCollideWorldBounds(true);
+                  this.player.body.bounce.set(1)
+                  this.player.angle = 180
+                  this.bullet2player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                    this.bullet2player.visible = false
+                    this.bullet3player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                    this.bullet3player.visible = false
+                    this.bullet4player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                    this.bullet4player.visible = false
+                    this.bullet5player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                    this.bullet5player.visible = false
+                    this.bullet6player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                    this.bullet6player.visible = false
+                    this.velocityplayer = message[i].playerVelocity
+                    this.accelerationplayer = message[i].playerAcceleration
+                    this.countplayer = message[i].playerCount
+                    this.count2player = message[i].playerCount2
+                    this.radiusplayer = message[i].playerRadius
+                    this.radius2player = message[i].playerRadius2
+                   
+                  //Add code here that is being updated constantly by another sockets inputs
+                 
+                    break;
+                case "player 2":
+                  this.player2 = this.physics.add.sprite(520,50,"player",0)// placing player in the scene context so you can access it from different methods
+                  this.playerHealth2 = 100
+                  this.player2.visible = true
+                  this.player2.body.setCollideWorldBounds(true);
+                  this.player2.body.bounce.set(1)
+                  this.player2.angle = 180
+                  this.bullet2player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                    this.bullet2player2.visible = false
+                    this.bullet3player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                    this.bullet3player2.visible = false
+                    this.bullet4player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                    this.bullet4player2.visible = false
+                    this.bullet5player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                    this.bullet5player2.visible = false
+                    this.bullet6player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                    this.bullet6player2.visible = false
+                    this.velocityplayer2 = message[i].playerVelocity
+                    this.accelerationplayer2 = message[i].playerAcceleration
+                    this.countplayer2 = message[i].playerCount
+                    this.count2player2 = message[i].playerCount2
+                    this.radiusplayer2 = message[i].playerRadius
+                    this.radius2player2 = message[i].playerRadius2
+                  //Add code here that is being updated constantly by another sockets inputs
+                    break;
+                case "player 3":
+                  this.player3 = this.physics.add.sprite(50,330,"player",0)// placing player in the scene context so you can access it from different methods
+                  this.playerHealth3 = 100
+                  this.player3.visible = true
+                  this.player3.body.setCollideWorldBounds(true);
+                  this.player3.body.bounce.set(1)
+                  this.player3.angle = 180
+                  this.bullet2player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                    this.bullet2player3.visible = false
+                    this.bullet3player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                    this.bullet3player3.visible = false
+                    this.bullet4player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                    this.bullet4player3.visible = false
+                    this.bullet5player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                    this.bullet5player3.visible = false
+                    this.bullet6player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                    this.bullet6player3.visible = false
+                    this.velocityplayer3 = message[i].playerVelocity
+                    this.accelerationplayer3 = message[i].playerAcceleration
+                    this.countplayer3 = message[i].playerCount
+                    this.count2player3 = message[i].playerCount2
+                    this.radiusplayer3 = message[i].playerRadius
+                    this.radius2player3 = message[i].playerRadius2
+                  //Add code here that is being updated constantly by another sockets inputs
+                    break;
+                case "player 4":
+                  this.player4 = this.physics.add.sprite(520,330,"player",0)// placing player in the scene context so you can access it from different methods
+                  this.playerHealth4 = 100
+                  this.player4.visible = true
+                  this.player4.body.setCollideWorldBounds(true);
+                  this.player4.body.bounce.set(1)
+                  this.player4.angle = 180
+                  this.bullet2player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                    this.bullet2player4.visible = false
+                    this.bullet3player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                    this.bullet3player4.visible = false
+                    this.bullet4player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                    this.bullet4player4.visible = false
+                    this.bullet5player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                    this.bullet5player4.visible = false
+                    this.bullet6player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                    this.bullet6player4.visible = false
+                    this.velocityplayer4 = message[i].playerVelocity
+                    this.accelerationplayer4 = message[i].playerAcceleration
+                    this.countplayer4 = message[i].playerCount
+                    this.count2player4 = message[i].playerCount2
+                    this.radiusplayer4 = message[i].playerRadius
+                    this.radius2player4 = message[i].playerRadius2
+                  //Add code here that is being updated constantly by another sockets inputs
+                    break;
+  
+              default:
+                  break;
+            }
 
-      //make and axios get request for all the other players that are active
+        }
+      })
+   
       
 }
 
@@ -56,259 +155,11 @@ gameScene.create = function(){
     bg = this.add.sprite(0,0,"background")
     bg.setPosition(320,180)
    
-        /*
-      this.player2 = this.physics.add.sprite(430,340,"player",0)
-      this.player2.body.setCollideWorldBounds(true);
-      this.player2.body.bounce.set(1)
-      this.player2.visible = false */
-
-      gameState.socket.on("playerData", (message)=>{
-
-        
-        for(const i in message){
-            console.log("This is message[i]: ",message[i].playerName)
-            switch(message[i].playerName) {
-
-                case "player 1":
-                  this.player = this.physics.add.sprite(50,50,"player",0)// placing player in the scene context so you can access it from different methods
-                  this.playerHealth = 100
-                  this.player.visible = true
-                    break;
-                case "player 2":
-                  this.player2 = this.physics.add.sprite(520,50,"player",0)// placing player in the scene context so you can access it from different methods
-                  this.playerHealth2 = 100
-                  this.player2.visible = true
-                    break;
-                case "player 3":
-                  this.player3 = this.physics.add.sprite(50,330,"player",0)// placing player in the scene context so you can access it from different methods
-                  this.playerHealth3 = 100
-                  this.player3.visible = true
-                    break;
-                case "player 4":
-                  this.player4 = this.physics.add.sprite(520,330,"player",0)// placing player in the scene context so you can access it from different methods
-                  this.playerHealth4 = 100
-                  this.player4.visible = true
-                    break;
-  
-              default:
-                  break;
-            }
-
-        }
-      })
-      
-      gameState.socket.on("servermessage", (message)=>{
-        //console.log("This is player data sent from there server: ", message)
-
-        //this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
-
-        /* ******************You Shouldn't create a new sprite every time the client recieves this "servermessage" you should only 
-        create the player2 sprite once using some action */
-        this.player2.visible = true
-
-
-
-        //gameState.player2 =  this.physics.add.sprite(message.x,message.y,"player",0)
-        //this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
-        //this.player2.body.setCollideWorldBounds(true);
-       
-        gameState.angle = message.angle
-
-        //this.player2.angle = message.angle
-        //this.player2.x = message.x
-        //this.player2.y = message.y
-    } )
-
-    /*
-    gameState.socket.on("player rotation", (message)=>{
-        
-        this.player2.angle = message.angle
-        //this.player2.setVelocityX(Math.cos((Math.PI/180)*message.angle)*this.velocity)
-        //this.player2.setVelocityY(Math.cos((Math.PI/180)*message.angle)*this.velocity)
-
-    }) */
-
-    /*
-    gameState.socket.on("player direction", (message)=>{
-        console.log("This is the gameState.angle value: ", message)
-        this.player2.setVelocityX(Math.cos((Math.PI/180)*message)*this.velocity)
-        this.player2.setVelocityY(Math.sin((Math.PI/180)*message)*this.velocity)
-    })*/
-
-  
-      //socket.emit("usermessage",playerData)
-     /* socket.on("servermessage", (message)=>{
-          console.log("This is player data sent from there server: ", message)
-
-          //this.player2 = this.physics.add.sprite(message.x,message.y,"player",0)
-         //this.player2.visible = true
-          gameState.player2 =  this.physics.add.sprite(message.x,message.y,"player",0)
-      } )*/
-
-
-  
-
-    //on connection make an axios post request to the database with the socketId and the coordinates of the players
-    /*axios.post("/api/players",playerData).then(results=>{
-        console.log("The post request was successful")
-        socket.emit("newPlayer",playerData)
-    }).catch(err=>{
-        console.log("There was an error trying to post the player's data to the database:",err)
-        console.log("This is the player data I was trying to post before the post failed",playerData)
-    })*/
-  
-    
-   /*
-    
-    this.player = this.physics.add.sprite(50,180,"player",0)// placing player in the scene context so you can access it from different methods
-    this.playerHealth = 100
-    this.player.visible = true
-
-    */
-    //this.player2 = gameState.newPlayer
-    //console.log("This is the value of gameState.newPlayer: ",gameState.newPlayer)
-    //--------------------------------------------------
-    //this.player2 = this.physics.add.sprite(300,180,"player",0)
-    //this.player2 = gameState.player2
-    console.log("This is gameState.player2: ",gameState.player2)
-    //-----------------------------------------------------
-    this.player2Health = 100
-   // gameState.player2 = this.physics.add.sprite(300,180,"player",0)
-    //gameState.player2Health = 100
-    //this.player3 = this.physics.add.sprite(500,180,"player",0)
-    //this.count2 = 0
-    //this.radius = 100
-
- 
-
-    /* Add this back
-    this.bullet2 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    this.bullet2.visible = false
-    this.bullet3 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    this.bullet3.visible = false
-    this.bullet4 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    this.bullet4.visible = false
-    this.bullet5 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    this.bullet5.visible = false
-    this.bullet6 = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    this.bullet6.visible = false
-
-        */
-
-
-
-    //gameState.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    //gameState.bullet.visible = false
-
-
-    /* add this back
-    this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-    this.bullet.angle = this.player.angle + 90
-    this.bullet.visible = false
-
-    */
-
-
-  
-    /*
-    this.bullet2s = this.add.group({
-        key:"bullet2",
-        repeat: 1,
-        setXY:{
-            x: this.player.x,
-            y: this.player.y,
-            stepX: (Math.cos((Math.PI/180)*(this.count2+30))*this.radius)+this.player.x,
-            stepY: (Math.sin((Math.PI/180)*(this.count2+30))*this.radius)+this.player.y
-        }
-
-    });
-    this.bullet2s.add(this.bullet2)
-    Phaser.Actions.Call(this.bullet2s.getChildren(),function(bullet2){
-                bullet2.visible = false
-
-    },this);
-    */
-    //this.bullet2s.visible = false
-    // this.player = this.add.sprite(50,this.sys.game.config.height / 2,"player")// -> uses the game configurations height property to access instead of manually entering one
-
-   // console.log("This is the *this.player* object: ")
-    //console.log(this.player)
-
-
-    //random coordinates
-   // this.randomX = Math.floor((Math.random()*315)+1)
-   // this.randomY = Math.floor(((Math.random())*170)+1)
-
-   /* add this back
-
-    this.player.angle = 180
-    this.player2.angle = 180
-
-    */
-
-    //players current angle
-    //console.log("This is the players current angle: ")
-    //console.log(this.player2.angle)
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    //console.log("This is the *this.cursors* object: ")
-   // console.log(this.cursors)
-    //player.setAngle(45);
-    //player.rotation = Math.PI/4;
-    //player.setRotation(Math.PI/4);
-
-    //console.log("This is the *this.cursors.space* object: ")
-    //console.log(this.cursors.space);
-
-/* add this back
-
-    this.player.body.setCollideWorldBounds(true);
-
-*/
-
-    /*
-    //---------------------------------------
-    this.player2.body.setCollideWorldBounds(true);
-    //---------------------------------------------
-    */
-    
-    //this.player3.body.setCollideWorldBounds(true);
-    /*
-    //------------------------------------------------
-    this.physics.add.collider(this.player,this.player2)
-    //---------------------------------------------
-    */
-   //this.physics.add.collider(this.bullet2,this.player2)
-    //this.physics.add.collider(this.bullet2,this.player2)
-    //this.physics.add.collider(this.player2,this.player3)
-    //this.physics.add.collider(this.player,this.player3)
-
-    /* add this back
-    this.player.body.bounce.set(1)
-
-    */
-    /*
-    //--------------------------------
-    this.player2.body.bounce.set(1)
-    //--------------------------------
-    */
-
-    //console.log("Logging this.player: ")
-    //console.log(this.player)
-
-    this.velocity = 60
-    gameState.velocity = 60
-
-    this.acceleration = 60
-
     this.count = 0
-
-    this.count2 = 0
-    this.radius = 2
-    this.radius2 = 100
    
-
     this.downFlag = false;
 
 
@@ -318,118 +169,10 @@ gameScene.create = function(){
 gameScene.update = function(){
 
     
-
-    gameState.socket.on("playerData",function(message){
-        console.log("This is the current player: ",message)
-    })
-
-    /* add this back
-    var playerData = {
-     
-        angle: this.player.angle
-        
-    } 
-
-    gameState.socket.emit("create player",playerData)
     
-    */
-    
-
-    
-    /*
-    //-----------------------------------------
-    if(this.player2Health<=0){
-        //alert("Player 2 killed this.player2Health<=0")
-       
-        this.player2Health = 100
-        this.randomX = Math.floor((Math.random()*315)+1)
-        this.randomY = Math.floor(((Math.random())*170)+1)
-
-        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
-        
-        console.log("This.player2Health<=0. this is player2's current health: ",this.player2Health);
-
-        this.player2.x = this.randomX
-        this.player2.y = this.randomY
-
-    }
-    //----------------------------------------------------
-    */
-       
-    
-    /*
-    this.player.x += .1;
-    this.player2.x += -.1;
-    */
-
-   // this.player.setVelocityX(0)
-   //  this.player2.setVelocityX(0)
-
-   //this.player3.x += //the result of a math equation
-
-   //this.count2 is the angle that is constantly changing
-   //((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player2.x)
-   //((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player2.y)
-
-   /*
-   this.player3.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player2.x)
-   this.player3.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player2.y)
-
-
-   this.count2 +=1 */
-    
-
-    //console.log("This is the current value of the downFlag: ")
-    //console.log(downFlag)
    
 
-    //this.player.angle += 1;
-    if(this.input.activePointer.isDown){
-
-        /*
-        if(this.velocity<70){
-
-            this.velocity += 1
-        }*/
-
-
-       
-
-        /*
-        console.log("This is the current velocity: ");
-        console.log(this.velocity)*/
-
-        
-        
-        /*
-        this.player.setVelocityX(this.velocity)
-        this.player.setVelocityY(this.velocity)*/
-
-
-      
-
-
-        //this.player.setAccelerationX(-20)
-        //this.player.velocityFromAngle(this.player.angle,100,this.player.velocity)
-        //this.player.x += 1
-        //this.player.angle += 1
-
-        /*
-        if(this.player.x = 1){
-            return;
-        }*/
-         
-
-       
-    }
-
     if(this.cursors.space.isDown){
-
-        
-
-        
-        
-       
 
        //if the space bar is down for longer than 2 seconds start spinning else fire bullet
        
@@ -438,29 +181,331 @@ gameScene.update = function(){
         //if count greater than __ change the angle and then reset the count
         this.count += 1
 
-       
-
-       // console.log("This is the current value of this.count: ")
-        //console.log(this.count)
-
         //Conditional statement so the player doesnt turn every time it fires
         if(this.count > 12){
-            this.player.angle += 5  
+             
 
             var playerDataAngle = {
-                angle: this.player.angle
+                angleIncrease: 5
             }
-            gameState.angle = this.player.angle
-            gameState.socket.emit("rotate player", playerDataAngle)         
+            
+            gameState.socket.emit("PlayerInputAngle", playerDataAngle)   
+
+            gameState.socket.on("PlayerOutputAngle", (message)=>{
+                
+                    switch(message.playerName){
+                        case "player 1":
+                            this.player.angle +=5
+                            break;
+                        case "player 2":
+                          this.player2.angle +=5
+                            break;
+                        case "player 3":
+                          this.player3.angle +=5
+                            break;
+                        case "player 4":
+                          this.player4.angle +=5
+                            break;
+                        default:
+                            break;
+                      
+      
+                      
+                    }
+                
+            })      
         }
 
         //Conditional statement that causes a bullet to spin around the player 
 
         if(this.count>50&&this.count<120){
 
-                
+                //Create trigger for wave bullets
                 
                     
+
+                gameState.socket.emit("PlayerInputBulletsWave", {} )
+
+
+                gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
+                    
+                        
+                            switch(message.playerName){
+                                case "player 1":
+                                    this.bullet2player.visible = true
+                                    this.bullet3player.visible = true
+                                    this.bullet4player.visible = true
+                                    this.bullet5player.visible = true
+                                    this.bullet2player.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player.x)
+                                    this.bullet2player.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player.y)
+                                    this.bullet3player.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player.x)
+                                    this.bullet3player.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player.y)
+                                    this.bullet4player.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player.x)
+                                    this.bullet4player.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player.y)
+                                    this.bullet5player.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player.x)
+                                    this.bullet5player.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player.y)
+                                    
+                                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player.getBounds(),this.player2.getBounds())){
+                
+                                        console.log("Wave bullet2 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                        
+                        
+                                      
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player.getBounds(),this.player2.getBounds())){
+                                        console.log("Wave bullet3 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player.getBounds(),this.player2.getBounds())){
+                                        console.log("Wave bullet4 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player.getBounds(),this.player2.getBounds())){
+                                        console.log("Wave bullet5 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }
+                                    if(this.playerHealth<=0){
+                
+                                        this.playerHealth = 100;
+                                        //gameState.player2Health =100
+                                        
+                                        this.randomX = Math.floor((Math.random()*315)+1)
+                                        this.randomY = Math.floor(((Math.random())*170)+1)
+                            
+                                        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+                            
+                                        this.player.x = this.randomX
+                                        this.player.y = this.randomY
+                                    }
+                                    break;
+                                case "player 2":
+                                    this.bullet2player2.visible = true
+                                    this.bullet3player2.visible = true
+                                    this.bullet4player2.visible = true
+                                    this.bullet5player2.visible = true
+                                    this.bullet2player2.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player2.x)
+                                    this.bullet2player2.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player2.y)
+                                    this.bullet3player2.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player2.x)
+                                    this.bullet3player2.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player2.y)
+                                    this.bullet4player2.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player2.x)
+                                    this.bullet4player2.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player2.y)
+                                    this.bullet5player2.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player2.x)
+                                    this.bullet5player2.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player2.y)
+                                    this.count2 +=10
+                                    this.radius += 2
+                                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player2.getBounds(),this.player.getBounds())){
+                
+                                        console.log("Wave bullet2 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                        
+                        
+                                      
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player2.getBounds(),this.player.getBounds())){
+                                        console.log("Wave bullet3 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player2.getBounds(),this.player.getBounds())){
+                                        console.log("Wave bullet4 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player2.getBounds(),this.player.getBounds())){
+                                        console.log("Wave bullet5 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }
+                                    if(this.player2Health<=0){
+                
+                                        this.player2Health = 100;
+                                        //gameState.player2Health =100
+                                        
+                                        this.randomX = Math.floor((Math.random()*315)+1)
+                                        this.randomY = Math.floor(((Math.random())*170)+1)
+                            
+                                        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+                            
+                                        this.player2.x = this.randomX
+                                        this.player2.y = this.randomY
+                                    }
+                                    break;
+                                case "player 3":
+                                    this.bullet2player3.visible = true
+                                    this.bullet3player3.visible = true
+                                    this.bullet4player3.visible = true
+                                    this.bullet5player3.visible = true
+                                    this.bullet2player3.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player3.x)
+                                    this.bullet2player3.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player3.y)
+                                    this.bullet3player3.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player3.x)
+                                    this.bullet3player3.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player3.y)
+                                    this.bullet4player3.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player3.x)
+                                    this.bullet4player3.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player3.y)
+                                    this.bullet5player3.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player3.x)
+                                    this.bullet5player3.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player3.y)
+                                    this.count2 +=10
+                                    this.radius += 2
+                                    
+                                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player3.getBounds(),this.player2.getBounds())){
+                
+                                        console.log("Wave bullet2 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                        
+                        
+                                      
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player3.getBounds(),this.player2.getBounds())){
+                                        console.log("Wave bullet3 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player3.getBounds(),this.player2.getBounds())){
+                                        console.log("Wave bullet4 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player3.getBounds(),this.player2.getBounds())){
+                                        console.log("Wave bullet5 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }
+                                    if(this.player3Health<=0){
+                
+                                        this.player3Health = 100;
+                                        //gameState.player2Health =100
+                                        
+                                        this.randomX = Math.floor((Math.random()*315)+1)
+                                        this.randomY = Math.floor(((Math.random())*170)+1)
+                            
+                                        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+                            
+                                        this.player3.x = this.randomX
+                                        this.player3.y = this.randomY
+                                    }
+                                    break;
+
+                                case "player 4":
+                                    this.bullet2player4.visible = true
+                                    this.bullet3player4.visible = true
+                                    this.bullet4player4.visible = true
+                                    this.bullet5player4.visible = true
+                                    this.bullet2player4.x  =  ((Math.cos((Math.PI/180)*this.count2)*this.radius)+this.player4.x)
+                                    this.bullet2player4.y =  ((Math.sin((Math.PI/180)*this.count2)*this.radius)+this.player4.y)
+                                    this.bullet3player4.x  =  ((Math.cos((Math.PI/180)*(this.count2+90))*this.radius)+this.player4.x)
+                                    this.bullet3player4.y =  ((Math.sin((Math.PI/180)*(this.count2+90))*this.radius)+this.player4.y)
+                                    this.bullet4player4.x  =  ((Math.cos((Math.PI/180)*(this.count2+180))*this.radius)+this.player4.x)
+                                    this.bullet4player4.y =  ((Math.sin((Math.PI/180)*(this.count2+180))*this.radius)+this.player4.y)
+                                    this.bullet5player4.x  =  ((Math.cos((Math.PI/180)*(this.count2+270))*this.radius)+this.player4.x)
+                                    this.bullet5player4.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player4.y)
+                                    this.count2 +=10
+                                    this.radius += 2
+                                    if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player4.getBounds(),this.player3.getBounds())){
+                
+                                        console.log("Wave bullet2 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                        
+                        
+                                      
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player4.getBounds(),this.player3.getBounds())){
+                                        console.log("Wave bullet3 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player4.getBounds(),this.player3.getBounds())){
+                                        console.log("Wave bullet4 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player4.getBounds(),this.player3.getBounds())){
+                                        console.log("Wave bullet5 hit");
+                                       
+                                        this.player2Health -=20;
+                                        
+                                        
+                                       
+                                        console.log("This is player2's current health: ",this.player2Health);
+                                    }
+                                    if(this.player4Health<=0){
+                
+                                        this.player4Health = 100;
+                                        //gameState.player2Health =100
+                                        
+                                        this.randomX = Math.floor((Math.random()*315)+1)
+                                        this.randomY = Math.floor(((Math.random())*170)+1)
+                            
+                                        //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+                            
+                                        this.player4.x = this.randomX
+                                        this.player4.y = this.randomY
+                                    }
+                                    break;
+
+                                default:
+                                    break;
+                              
+              
+                              
+                            }
+                        
+                    
+                })
 
 
                 
@@ -488,6 +533,7 @@ gameScene.update = function(){
 
             //this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
         
+            /* add this back
             this.bullet2.visible = true
             this.bullet3.visible = true
             this.bullet4.visible = true
@@ -506,13 +552,18 @@ gameScene.update = function(){
             this.bullet5.y =  ((Math.sin((Math.PI/180)*(this.count2+270))*this.radius)+this.player.y)
             //this.bullet6.x  =  ((Math.cos((Math.PI/180)*(this.count2+315))*this.radius)+this.player.x)
             //this.bullet6.y =  ((Math.sin((Math.PI/180)*(this.count2+315))*this.radius)+this.player.y)
-         
-         
-            this.count2 +=10
-            this.radius += 2
+         */
 
-                
+
+         /* add this back
+            this.count2 +=10
+            this.radius += 2 */
+
+
+
+                /*add this back
             let bullet2Rect = this.bullet2.getBounds();
+            */
             /*
             //--------------------------------------------
             let player2Rect = this.player2.getBounds();
@@ -563,7 +614,7 @@ gameScene.update = function(){
 
 
 
-            /*
+            
             //----------------------------------------------------------------
             if(this.player2Health<=0){
                 
@@ -578,8 +629,47 @@ gameScene.update = function(){
                 this.player2.x = this.randomX
                 this.player2.y = this.randomY
             }
+            if(this.playerHealth<=0){
+                
+                this.playerHealth = 100;
+                //gameState.player2Health =100
+                
+                this.randomX = Math.floor((Math.random()*315)+1)
+                this.randomY = Math.floor(((Math.random())*170)+1)
+    
+                //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+    
+                this.player.x = this.randomX
+                this.player.y = this.randomY
+            }
+            if(this.player3Health<=0){
+                
+                this.player3Health = 100;
+                //gameState.player2Health =100
+                
+                this.randomX = Math.floor((Math.random()*315)+1)
+                this.randomY = Math.floor(((Math.random())*170)+1)
+    
+                //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+    
+                this.player3.x = this.randomX
+                this.player3.y = this.randomY
+            }
+            if(this.player4Health<=0){
+                
+                this.player4Health = 100;
+                //gameState.player2Health =100
+                
+                this.randomX = Math.floor((Math.random()*315)+1)
+                this.randomY = Math.floor(((Math.random())*170)+1)
+    
+                //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+    
+                this.player4.x = this.randomX
+                this.player4.y = this.randomY
+            }
             //--------------------------------------------------------------
-            */
+            
            
 
         };
@@ -591,13 +681,59 @@ gameScene.update = function(){
         //Conditional statement that causes the player to disappear when 
         if(this.count===120){
 
-            this.randomX = Math.floor((Math.random()*315)+1)
-            this.randomY = Math.floor(((Math.random())*170)+1)
+           
 
-            //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+            /*add this back
+            this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
 
             this.player.x = this.randomX
-            this.player.y = this.randomY
+            this.player.y = this.randomY */
+
+            const newCoordinates = {
+                x: Math.floor((Math.random()*315)+1),
+                y: Math.floor(((Math.random())*170)+1)
+            }
+
+            gameState.socket.emit("PlayerInputNewCoordinates",  newCoordinates)
+
+            gameState.socket.on("PlayerOutputNewCoordinates", (message)=>{
+                switch(message.playerName){
+                    case "player 1":
+                        this.player.x = message.newCoordinates.x
+                        this.player.y = message.newCoordinates.y
+                        this.bullet2player.visible = false
+                        this.bullet3player.visible = false
+                        this.bullet4player.visible = false
+                        this.bullet5player.visible = false
+                        break;
+                    case "player 2":
+                        this.player2.x = message.newCoordinates.x
+                        this.player2.y = message.newCoordinates.y
+                        this.bullet2player2.visible = false
+                        this.bullet3player2.visible = false
+                        this.bullet4player2.visible = false
+                        this.bullet5player2.visible = false
+                        break;
+                    case "player 3":
+                        this.player3.x = message.newCoordinates.x
+                        this.player3.y = message.newCoordinates.y
+                        this.bullet2player3.visible = false
+                        this.bullet3player3.visible = false
+                        this.bullet4player3.visible = false
+                        this.bullet5player3.visible = false
+                        break;
+                    case "player 4":
+                        this.player4.x = message.newCoordinates.x
+                        this.player4.y = message.newCoordinates.y
+                        this.bullet2player4.visible = false
+                        this.bullet3player4.visible = false
+                        this.bullet4player4.visible = false
+                        this.bullet5player4.visible = false
+                        break;
+                    default:
+                        break;
+                }
+            })
 
             //console.log("Random number for x coordinate value: ")
             //console.log(this.randomX)
@@ -605,10 +741,7 @@ gameScene.update = function(){
             //console.log("Random number for y coordinate value: ")
             //console.log(this.randomY)
 
-            this.bullet2.visible = false
-            this.bullet3.visible = false
-            this.bullet4.visible = false
-            this.bullet5.visible = false
+           
             
         }
 
@@ -634,14 +767,62 @@ gameScene.update = function(){
         if(this.downFlag){
 
             //reset this.count 
-            this.count = 0
-            this.count2 = 0
-            this.radius = 1
+            //this.count = 0
+            //this.count2 = 0
+            //this.radius = 1
+
+            gameState.socket.emit("PlayerInputResetCount", {
+                count: 0,
+                count2: 0,
+                radius: 1
+            })
             
-            this.bullet2.visible = false
-            this.bullet3.visible = false
-            this.bullet4.visible = false
-            this.bullet5.visible = false
+            gameState.socket.on("PlayerOutputResetCount",(message)=>{
+                switch(message.playerName){
+                    case "player 1":
+                        this.countplayer = message.count
+                        this.count2player = message.count2
+                        this.radiusplayer = message.radius
+                        this.bullet2player.visible = false
+                        this.bullet3player.visible = false
+                        this.bullet4player.visible = false
+                        this.bullet5player.visible = false
+                        break;
+                    case "player 2":
+                        this.countplayer2 = message.count
+                        this.count2player2 = message.count2
+                        this.radiusplayer2 = message.radius
+                        this.bullet2player2.visible = false
+                        this.bullet3player2.visible = false
+                        this.bullet4player2.visible = false
+                        this.bullet5player2.visible = false
+                        break;
+                    case "player 3":
+                        this.countplayer3 = message.count
+                        this.count2player3 = message.count2
+                        this.radiusplayer3 = message.radius
+                        this.bullet2player3.visible = false
+                        this.bullet3player3.visible = false
+                        this.bullet4player3.visible = false
+                        this.bullet5player3.visible = false
+                        break;
+                    case "player 4":
+                        this.countplayer4 = message.count
+                        this.count2player4 = message.count2
+                        this.radiusplayer4 = message.radius
+                        this.bullet2player4.visible = false
+                        this.bullet3player4.visible = false
+                        this.bullet4player4.visible = false
+                        this.bullet5player4.visible = false
+                        break;
+                    default:
+                        break;
+                }
+            })
+            //this.bullet2.visible = false
+            //this.bullet3.visible = false
+            //this.bullet4.visible = false
+            //this.bullet5.visible = false
             //this.bullet2.visible = false
 
         
@@ -661,6 +842,54 @@ gameScene.update = function(){
                 this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
                 this.bullet.angle = this.player.angle + 90
                 this.bullet.visible = true
+
+
+                gameState.socket.emit("PlayerInputBullets", {
+                    bullet: this.physics.add.sprite(this.player.x,this.player.y,"bullet",0),
+                    bulletAngle: 90,
+                    bulletVisible: true
+
+                })
+
+
+                gameState.socket.on("PlayerOutputBullets", (message)=>{
+                    switch(message.playerName){
+                        case "player 1":
+                            this.bulletplayer = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                            this.bulletplayer.angle = message.bulletAngle
+                            this.bulletplayer.visible = message.bulletVisible
+                            this.bulletplayer.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*500)
+                            this.bulletplayer.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*500)
+            
+                            break;
+                        case "player 2":
+                            this.bulletplayer2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                            this.bulletplayer2.angle = message.bulletAngle
+                            this.bulletplayer2.visible = message.bulletVisible
+                            this.bulletplayer2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*500)
+                            this.bulletplayer2.setVelocityY(Math.sin((Math.PI/180)*this.player2.angle)*500)
+            
+                            break;
+                        case "player 3":
+                            this.bulletplayer3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                            this.bulletplayer3.angle = message.bulletAngle
+                            this.bulletplayer3.visible = message.bulletVisible
+                            this.bulletplayer3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*500)
+                            this.bulletplayer3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*500)
+            
+                            break;
+                        case "player 4":
+                            this.bulletplayer4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                            this.bulletplayer4.angle = message.bulletAngle
+                            this.bulletplayer4.visible = message.bulletVisible
+                            this.bulletplayer4.setVelocityX(Math.cos((Math.PI/180)*this.player4.angle)*500)
+                            this.bulletplayer4.setVelocityY(Math.sin((Math.PI/180)*this.player4.angle)*500)
+            
+                            break;
+                        default:
+                            break;
+                    }
+                })
                // this.physics.add.collider(this.bullet,this.player2)
 
                 //this.bullet.visible = true
@@ -669,10 +898,10 @@ gameScene.update = function(){
                 //this.bullet.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*500)
                 //this.bullet.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*500)
 
-                
+                /* add this back
                 this.bullet.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*500)
                 this.bullet.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*500)
-
+                */
                
                
                 /*
@@ -744,18 +973,66 @@ gameScene.update = function(){
 
 
                
-                    gameState.socket.emit("move player", this.player.angle)
-                  this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
-                  this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity)
+                    gameState.socket.emit("PlayerInputVelocity", {})
 
-                  this.velocity +=20
+                    gameState.socket.on("PlayerOutputVelocity", (message)=>{
+                        switch(message.playerName){
+                            case "player 1":
+                                this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocityplayer)
+                                this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocityplayer)
+                                this.velocityplayer +=20
+                                break;
+                            case "player 2":
+                                this.player2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
+                                this.player2.setVelocityY(Math.sin((Math.PI/180)*this.playe2r.angle)*this.velocityplayer2)
+                                this.velocityplayer2 +=20
+                                break;
+                            case "player 3":
+                                this.player3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*this.velocity3)
+                                this.player3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*this.velocity3)
+                                this.velocityplayer3 +=20
+                                break;
+                            case "plaer 4":
+                                this.player4.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity4)
+                                this.player4.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity4)
+                                this.velocityplayer4 +=20
+                                break;
+                            default:
+                               
+                                break;
+                        }
+                    })
+                  
 
               }else {
 
-                  gameState.socket.emit("move player", this.player.angle)
-                this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity)
-                this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity)
-
+                gameState.socket.on("PlayerOutputVelocity", (message)=>{
+                    switch(message.playerName){
+                        case "player 1":
+                            this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocityplayer)
+                            this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocityplayer)
+                            this.velocityplayer +=20
+                            break;
+                        case "player 2":
+                            this.player2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
+                            this.player2.setVelocityY(Math.sin((Math.PI/180)*this.playe2r.angle)*this.velocityplayer2)
+                            this.velocityplayer2 +=20
+                            break;
+                        case "player 3":
+                            this.player3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*this.velocity3)
+                            this.player3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*this.velocity3)
+                            this.velocityplayer3 +=20
+                            break;
+                        case "plaer 4":
+                            this.player4.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity4)
+                            this.player4.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity4)
+                            this.velocityplayer4 +=20
+                            break;
+                        default:
+                           
+                            break;
+                    }
+                })
                 
                 //console.log("this.velocity other than 150:",this.velocity)
               }
