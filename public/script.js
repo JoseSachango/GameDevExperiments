@@ -16,7 +16,7 @@ gameScene.init = function(){
     gameState.socket = io()
 
     gameState.socket.on("playerData", (message)=>{
-
+        this.downFlag = false;
         
         for(const i in message){
             console.log("This is message[i]: ",message[i])
@@ -331,7 +331,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             this.bullet5player3.visible = true
             this.bullet2player3.x  =  ((Math.cos((Math.PI/180)*this.count2player3)*this.radiusplayer3)+this.player3.x)
             this.bullet2player3.y =  ((Math.sin((Math.PI/180)*this.count2player3)*this.radiusplayer3)+this.player3.y)
-            this.bullet3player3.x  =  ((Math.cos((Math.PI/180)*(this.count2player3+90))*tthis.radiusplayer3)+this.player3.x)
+            this.bullet3player3.x  =  ((Math.cos((Math.PI/180)*(this.count2player3+90))*this.radiusplayer3)+this.player3.x)
             this.bullet3player3.y =  ((Math.sin((Math.PI/180)*(this.count2player3+90))*this.radiusplayer3)+this.player3.y)
             this.bullet4player3.x  =  ((Math.cos((Math.PI/180)*(this.count2player3+180))*this.radiusplayer3)+this.player3.x)
             this.bullet4player3.y =  ((Math.sin((Math.PI/180)*(this.count2player3+180))*this.radiusplayer3)+this.player3.y)
@@ -515,9 +515,66 @@ gameState.socket.on("PlayerOutputNewCoordinates", (message)=>{
 })
 //---------------------------------------------------------------------------New Coordinates end
 
+//---------------------------------------------------------------------------Reset Count
+
+gameState.socket.on("PlayerOutputResetCount",(message)=>{
+    console.log("This is message.playerName inside playerOutputResetCount: ", message.playerName)
+    switch(message.playerName){
+        case "player 1":
+            console.log("This is message.count: ",message.count)
+            this.count = message.count
+            this.downFlag = false;
+            this.countplayer = message.count
+            this.count2player = message.count2
+            this.radiusplayer = message.radius
+            this.bullet2player.visible = false
+            this.bullet3player.visible = false
+            this.bullet4player.visible = false
+            this.bullet5player.visible = false
+            break;
+        case "player 2":
+            this.count = message.count
+            this.downFlag = false;
+            this.countplayer2 = message.count
+            this.count2player2 = message.count2
+            this.radiusplayer2 = message.radius
+            this.bullet2player2.visible = false
+            this.bullet3player2.visible = false
+            this.bullet4player2.visible = false
+            this.bullet5player2.visible = false
+            break;
+        case "player 3":
+            this.count = message.count
+            this.downFlag = false;
+            this.countplayer3 = message.count
+            this.count2player3 = message.count2
+            this.radiusplayer3 = message.radius
+            this.bullet2player3.visible = false
+            this.bullet3player3.visible = false
+            this.bullet4player3.visible = false
+            this.bullet5player3.visible = false
+            break;
+        case "player 4":
+            this.count = message.count
+            this.downFlag = false;
+            this.countplayer4 = message.count
+            this.count2player4 = message.count2
+            this.radiusplayer4 = message.radius
+            this.bullet2player4.visible = false
+            this.bullet3player4.visible = false
+            this.bullet4player4.visible = false
+            this.bullet5player4.visible = false
+            break;
+        default:
+            break;
+    }
+})
+
+//---------------------------------------------------------------------------Reset Count End
+
     this.count = 0
    
-    this.downFlag = false;
+    
 
 
 }
@@ -525,13 +582,14 @@ gameState.socket.on("PlayerOutputNewCoordinates", (message)=>{
 
 gameScene.update = function(){
 
-    
+    console.log("This is the current this.downFlag variable right after the gamescene.update function runs: ", this.downFlag)
     
    
 
     if(this.cursors.space.isDown){
 
        //if the space bar is down for longer than 2 seconds start spinning else fire bullet
+       console.log("This is the current this.count variable right when the spacebar is down: ", this.count)
        
 
         //start rotating
@@ -539,6 +597,27 @@ gameScene.update = function(){
         this.count += 1
 
         //Conditional statement so the player doesnt turn every time it fires
+        /*
+        gameState.socket.emit("PlayerInputCount", {})
+        gameState.socket.on("PlayerOutputCount", (message)=>{
+            switch(message.playerName){
+                case "player 1":
+                    this.countplayer += 1
+                    break;
+                case "player 2":
+                    this.countplayer2 +=1
+                    break;
+                case "player 3":
+                    this.countplayer3 +=1
+                    break;
+                case "player 4":
+                    this.countplayer4 +=1
+                    break;
+                default:
+                    break;
+            }
+        })*/
+
         if(this.count > 12){
              
 
@@ -662,7 +741,9 @@ gameScene.update = function(){
         if(this.downFlag){
 
             //reset this.count 
-            //this.count = 0
+            this.count = 0
+            this.downFlag = false;
+            console.log("This is a line after this.downFlag runs false: ",this.downFlag)
             //this.count2 = 0
             //this.radius = 1
 
@@ -672,49 +753,7 @@ gameScene.update = function(){
                 radius: 1
             })
             
-            gameState.socket.on("PlayerOutputResetCount",(message)=>{
-                switch(message.playerName){
-                    case "player 1":
-                        this.countplayer = message.count
-                        this.count2player = message.count2
-                        this.radiusplayer = message.radius
-                        this.bullet2player.visible = false
-                        this.bullet3player.visible = false
-                        this.bullet4player.visible = false
-                        this.bullet5player.visible = false
-                        break;
-                    case "player 2":
-                        this.countplayer2 = message.count
-                        this.count2player2 = message.count2
-                        this.radiusplayer2 = message.radius
-                        this.bullet2player2.visible = false
-                        this.bullet3player2.visible = false
-                        this.bullet4player2.visible = false
-                        this.bullet5player2.visible = false
-                        break;
-                    case "player 3":
-                        this.countplayer3 = message.count
-                        this.count2player3 = message.count2
-                        this.radiusplayer3 = message.radius
-                        this.bullet2player3.visible = false
-                        this.bullet3player3.visible = false
-                        this.bullet4player3.visible = false
-                        this.bullet5player3.visible = false
-                        break;
-                    case "player 4":
-                        this.countplayer4 = message.count
-                        this.count2player4 = message.count2
-                        this.radiusplayer4 = message.radius
-                        this.bullet2player4.visible = false
-                        this.bullet3player4.visible = false
-                        this.bullet4player4.visible = false
-                        this.bullet5player4.visible = false
-                        break;
-                    default:
-                        break;
-                }
-            })
-    
+          
 
         
            
@@ -734,7 +773,7 @@ gameScene.update = function(){
 
 
                 gameState.socket.emit("PlayerInputBullets", {
-                    bullet: this.physics.add.sprite(this.player.x,this.player.y,"bullet",0),
+                    bullet: null,
                     bulletAngle: 90,
                     bulletVisible: true
 
@@ -748,15 +787,18 @@ gameScene.update = function(){
                             this.bulletplayer = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
                             this.bulletplayer.angle = this.player.angle + message.bulletAngle
                             this.bulletplayer.visible = message.bulletVisible
+                            this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocityplayer)
+                            this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocityplayer)
                             this.bulletplayer.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*500)
                             this.bulletplayer.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*500)
-                            console.log("The <150 count is working but somethings wrong. Heres the player angle: ",this.player.angle)
             
                             break;
                         case "player 2":
                             this.bulletplayer2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
                             this.bulletplayer2.angle = this.player2.angle + message.bulletAngle
                             this.bulletplayer2.visible = message.bulletVisible
+                            this.player2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
+                            this.player2.setVelocityY(Math.sin((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
                             this.bulletplayer2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*500)
                             this.bulletplayer2.setVelocityY(Math.sin((Math.PI/180)*this.player2.angle)*500)
             
@@ -765,6 +807,8 @@ gameScene.update = function(){
                             this.bulletplayer3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
                             this.bulletplayer3.angle = this.player3.angle + message.bulletAngle
                             this.bulletplayer3.visible = message.bulletVisible
+                            this.player3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*this.velocityplayer3)
+                            this.player3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*this.velocityplayer3)
                             this.bulletplayer3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*500)
                             this.bulletplayer3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*500)
             
@@ -773,6 +817,8 @@ gameScene.update = function(){
                             this.bulletplayer4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
                             this.bulletplayer4.angle = this.player4.angle + message.bulletAngle
                             this.bulletplayer4.visible = message.bulletVisible
+                            this.player4.setVelocityX(Math.cos((Math.PI/180)*this.player4.angle)*this.velocityplayer4)
+                            this.player4.setVelocityY(Math.sin((Math.PI/180)*this.player4.angle)*this.velocityplayer4)
                             this.bulletplayer4.setVelocityX(Math.cos((Math.PI/180)*this.player4.angle)*500)
                             this.bulletplayer4.setVelocityY(Math.sin((Math.PI/180)*this.player4.angle)*500)
             
@@ -1038,8 +1084,7 @@ gameScene.update = function(){
 
             //Release a spiral explosion that expands outward and appear somewhere else on the map randomly
 
-            
-            this.downFlag = false;
+           
         }
 
     }

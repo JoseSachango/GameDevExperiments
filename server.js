@@ -123,12 +123,12 @@ io.on("connection",function(socket){
         for(const i in playerData){
 
             if(socket.id === i){
-
+                playerData[i].count = message.count
                 playerData[i].bullet = message.count
                 playerData[i].count2 = message.count2
                 playerData[i].radius = message.radius
 
-                io.emit("PlayerOutputputResetCount", playerData[i])
+                io.emit("PlayerOutputResetCount", playerData[i])
             }
         }
     })
@@ -155,6 +155,19 @@ io.on("connection",function(socket){
               
 
                 io.emit("PlayerOutputputResetCount", playerData[i])
+            }
+        }
+    })
+
+    socket.on("PlayerInputCount",(message)=>{
+
+        for(const i in playerData){
+
+            if(socket.id === i){
+
+              
+
+                io.emit("PlayerOutputCount", playerData[i])
             }
         }
     })
