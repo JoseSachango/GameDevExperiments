@@ -484,6 +484,8 @@ gameState.socket.on("PlayerOutputNewCoordinates", (message)=>{
             this.bullet3player.visible = false
             this.bullet4player.visible = false
             this.bullet5player.visible = false
+            this.count2player = 0
+            this.radiusplayer = 0
             break;
         case "player 2":
             this.player2.x = message.newCoordinates.x
@@ -492,6 +494,8 @@ gameState.socket.on("PlayerOutputNewCoordinates", (message)=>{
             this.bullet3player2.visible = false
             this.bullet4player2.visible = false
             this.bullet5player2.visible = false
+            this.count2player2 = 0
+            this.radiusplayer2 = 0
             break;
         case "player 3":
             this.player3.x = message.newCoordinates.x
@@ -500,6 +504,8 @@ gameState.socket.on("PlayerOutputNewCoordinates", (message)=>{
             this.bullet3player3.visible = false
             this.bullet4player3.visible = false
             this.bullet5player3.visible = false
+            this.count2player3 = 0
+            this.radiusplayer3 = 0
             break;
         case "player 4":
             this.player4.x = message.newCoordinates.x
@@ -508,6 +514,8 @@ gameState.socket.on("PlayerOutputNewCoordinates", (message)=>{
             this.bullet3player4.visible = false
             this.bullet4player4.visible = false
             this.bullet5player4.visible = false
+            this.count2player4 = 0
+            this.radiusplayer4 = 0
             break;
         default:
             break;
@@ -656,6 +664,7 @@ gameScene.update = function(){
     
                 this.player2.x = this.randomX
                 this.player2.y = this.randomY
+                
             }
             if(this.playerHealth<=0){
                 
