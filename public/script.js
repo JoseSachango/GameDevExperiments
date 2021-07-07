@@ -537,8 +537,7 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
     switch(message.playerName){
         case "player 1":
             //console.log("This is message.count: ",message.count)
-            this.count = message.count
-            this.downFlag = false;
+          
             this.countplayer = message.count
             this.count2player = message.count2
             this.radiusplayer = message.radius
@@ -548,8 +547,7 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
             this.bullet5player.visible = false
             break;
         case "player 2":
-            this.count = message.count
-            this.downFlag = false;
+          
             this.countplayer2 = message.count
             this.count2player2 = message.count2
             this.radiusplayer2 = message.radius
@@ -559,8 +557,7 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
             this.bullet5player2.visible = false
             break;
         case "player 3":
-            this.count = message.count
-            this.downFlag = false;
+        
             this.countplayer3 = message.count
             this.count2player3 = message.count2
             this.radiusplayer3 = message.radius
@@ -570,8 +567,7 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
             this.bullet5player3.visible = false
             break;
         case "player 4":
-            this.count = message.count
-            this.downFlag = false;
+       
             this.countplayer4 = message.count
             this.count2player4 = message.count2
             this.radiusplayer4 = message.radius
@@ -919,7 +915,8 @@ gameScene.update = function(){
             //reset this.count 
             this.count = 0
             this.downFlag = false;
-            console.log("This is a line after this.downFlag runs false: ",this.downFlag)
+         
+            //console.log("This is a line after this.downFlag runs false: ",this.downFlag)
             //this.count2 = 0
             //this.radius = 1
 
