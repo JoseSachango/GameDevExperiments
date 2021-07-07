@@ -13,17 +13,39 @@ let gameState = {}
 
 gameScene.init = function(){
    
+   
+   
+      
+}
+
+
+
+
+
+//load assets
+gameScene.preload = function(){
+    this.load.image("background","assets/background.png")  //*this.* refers to the gameScene object
+    this.load.image("player","assets/player.png")
+    this.load.image("bullet","assets/bullet2.png")
+};
+
+
+
+// called once after preload ends
+gameScene.create = function(){
+    // -------------------------------------------
     gameState.socket = io()
 
     gameState.socket.on("playerData", (message)=>{
         this.downFlag = false;
         
         for(const i in message){
-            console.log("This is message[i]: ",message[i])
+            //console.log("This is message[i]: ",message[i])
             switch(message[i].playerName) {
 
                 case "player 1":
                   this.player = this.physics.add.sprite(50,50,"player",0)// placing player in the scene context so you can access it from different methods
+                  gameState.playerOne = this.player
                   this.playerHealth = 100
                   this.player.visible = true
                   this.player.body.setCollideWorldBounds(true);
@@ -51,6 +73,7 @@ gameScene.init = function(){
                     break;
                 case "player 2":
                   this.player2 = this.physics.add.sprite(520,50,"player",0)// placing player in the scene context so you can access it from different methods
+                  gameState.playerTwo = this.player2
                   this.playerHealth2 = 100
                   this.player2.visible = true
                   this.player2.body.setCollideWorldBounds(true);
@@ -76,6 +99,7 @@ gameScene.init = function(){
                     break;
                 case "player 3":
                   this.player3 = this.physics.add.sprite(50,330,"player",0)// placing player in the scene context so you can access it from different methods
+                  gameState.playerThree = this.player3
                   this.playerHealth3 = 100
                   this.player3.visible = true
                   this.player3.body.setCollideWorldBounds(true);
@@ -101,6 +125,7 @@ gameScene.init = function(){
                     break;
                 case "player 4":
                   this.player4 = this.physics.add.sprite(520,330,"player",0)// placing player in the scene context so you can access it from different methods
+                  gameState.playerFour = this.player4
                   this.playerHealth4 = 100
                   this.player4.visible = true
                   this.player4.body.setCollideWorldBounds(true);
@@ -131,26 +156,8 @@ gameScene.init = function(){
 
         }
       })
-   
-      
-}
 
-
-
-
-
-//load assets
-gameScene.preload = function(){
-    this.load.image("background","assets/background.png")  //*this.* refers to the gameScene object
-    this.load.image("player","assets/player.png")
-    this.load.image("bullet","assets/bullet2.png")
-};
-
-
-
-// called once after preload ends
-gameScene.create = function(){
-    // create bg sprite
+    //---------------------------------------------------------
 
     bg = this.add.sprite(0,0,"background")
     bg.setPosition(320,180)
@@ -473,7 +480,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
 
 //---------------------------------------------------------------------------Wave bullets and teleport end
 
-//---------------------------------------------------------------------------New Coordinates start
+//---------------------------------------------------------------------------New Coordinates after teleport start
 
 gameState.socket.on("PlayerOutputNewCoordinates", (message)=>{
     switch(message.playerName){
@@ -526,10 +533,10 @@ gameState.socket.on("PlayerOutputNewCoordinates", (message)=>{
 //---------------------------------------------------------------------------Reset Count
 
 gameState.socket.on("PlayerOutputResetCount",(message)=>{
-    console.log("This is message.playerName inside playerOutputResetCount: ", message.playerName)
+    //console.log("This is message.playerName inside playerOutputResetCount: ", message.playerName)
     switch(message.playerName){
         case "player 1":
-            console.log("This is message.count: ",message.count)
+            //console.log("This is message.count: ",message.count)
             this.count = message.count
             this.downFlag = false;
             this.countplayer = message.count
@@ -580,6 +587,108 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
 
 //---------------------------------------------------------------------------Reset Count End
 
+//---------------------------------------------------------------------------CurrentLocationXY
+/*
+gameState.socket.on("PlayerOutputXY",(message)=>{
+
+    switch(message.playerName){
+        case "player 1":
+            if(this.player.x != message.x || this.player.y!= message.y){
+                console.log("This is the x coordinate for player1: ", message.x)
+                console.log("This is the y coordinate for player1: ", message.y)
+            }
+            
+            break;
+        case "player 2":
+            if(this.player2.x != message.x || this.player2.y!= message.y){
+                console.log("This is the x coordinate for player 2: ", message.x)
+                console.log("This is the y coordinate for player 2: ", message.y)
+            }
+            break;
+        case "player 3":
+            if(this.player3.x != message.x || this.player3.y!= message.y){
+                console.log("This is the x coordinate for player 3: ", message.x)
+                console.log("This is the y coordinate for player 3: ", message.y)
+            }
+            break;
+        case "player 4":
+            if(this.player4.x != message.x || this.player4.y!= message.y){
+                console.log("This is the x coordinate for player 4: ", message.x)
+                console.log("This is the y coordinate for player 4: ", message.y)
+            }
+            break;
+        default:
+            break;
+        
+    }    
+
+})*/
+
+//---------------------------------------------------------------------------CurrentLocationXY end
+
+//---------------------------------------------------------------------------XY
+/*
+gameState.socket.on("PlayerOutputCurrentLocation",(message)=>{
+    switch(message.playerName){
+        case "player 1":
+          
+                var currentLocation1 = {
+                    
+                    x: this.player.x,
+                    y: this.player.y
+                }
+
+           
+
+            gameState.socket.emit("PlayerInputXY", currentLocation1)
+            
+            break;
+        case "player 2":
+            
+                var currentLocation2 = {
+                    x: this.player2.x,
+                    y: this.player2.y
+                }
+
+         
+
+            gameState.socket.emit("PlayerInputXY", currentLocation2)
+            break;
+        case "player 3":
+            
+                var currentLocation3 = {
+                    x: this.player3.x,
+                    y: this.player3.y
+                }
+
+            
+
+            gameState.socket.emit("PlayerInputXY", currentLocation3)
+            break;
+        case "player 4":
+         
+                var currentLocation4 = {
+                    x: this.player4.x,
+                    y: this.player4.y
+                }
+
+          
+
+            gameState.socket.emit("PlayerInputXY", currentLocation4)
+            break;
+        default:
+            break;
+    }
+})*/
+//---------------------------------------------------------------------------XY end
+
+
+//-----------------------------------------------------------------Current player
+gameState.socket.on("CurrentPlayerOutput",(message)=>{
+    gameState.currentPlayer = message.playerName
+})
+//------------------------------------------------------------------Current player end
+
     this.count = 0
    
     
@@ -590,14 +699,72 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
 
 gameScene.update = function(){
 
-    console.log("This is the current this.downFlag variable right after the gamescene.update function runs: ", this.downFlag)
+    //Method to keep accurate track of the players location in each client
+    if(gameState.currentPlayer){
+        console.log("Current player is: ",gameState.currentPlayer)
+        
+        switch(gameState.currentPlayer){
+            case "player 1":
+                console.log("Current players x location is : ",gameState.playerOne.x)
+                gameState.socket.emit("player1Location",{
+                    x: gameState.playerOne.x,
+                    y: gameState.playerOne.y
+                })
+                break;
+            case "player 2":
+                console.log("Current players x location is : ",gameState.playerTwo.x)
+                gameState.socket.emit("player2Location",{
+                    x: gameState.playerTwo.x,
+                    y: gameState.playerTwo.y
+                })
+                break;
+            case "player 3":
+                console.log("Current players x location is : ",gameState.playerThree.x)
+                gameState.socket.emit("player3Location",{
+                    x: gameState.playerThree.x,
+                    y: gameState.playerThree.y
+                })
+                break;
+            case "player 4":
+                console.log("Current players x location is : ",gameState.playerFour.x)
+                gameState.socket.emit("player4Location",{
+                    x: gameState.playerFour.x,
+                    y: gameState.playerFour.y
+                })
+                break;
+            default:
+                break;
+        }
+    }
+
+        gameState.socket.on("player1LocationOutput",(message)=>{
+            gameState.playerOne.x = message.x
+            gameState.playerOne.y = message.y
+        })
+        gameState.socket.on("player2LocationOutput",(message)=>{
+            gameState.playerTwo.x = message.x
+            gameState.playerTwo.y = message.y
+        })
+        gameState.socket.on("player3LocationOutput",(message)=>{
+            gameState.playerThree.x = message.x
+            gameState.playerThree.y = message.y
+        })
+        gameState.socket.on("player4LocationOutput",(message)=>{
+            gameState.playerFour.x = message.x
+            gameState.playerFour.y = message.y
+        })
+   
+        gameState.socket.emit("PlayerInputCurrentLocation",{})
+
+      
+
+
     
    
 
     if(this.cursors.space.isDown){
 
        //if the space bar is down for longer than 2 seconds start spinning else fire bullet
-       console.log("This is the current this.count variable right when the spacebar is down: ", this.count)
        
 
         //start rotating
@@ -774,7 +941,6 @@ gameScene.update = function(){
             // the durations of 1 click is approximately 133 miliseconds
             if(this.cursors.space.duration<150){
 
-                console.log("Heres the this.cursors.space.duration for <150: ",this.cursors.space.duration)
                 //this.bullet = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
                 //this.bullet.angle = this.player.angle + 90
 
@@ -788,16 +954,19 @@ gameScene.update = function(){
 
                 })
 
-
+                //--------------Start editing in the section below
                 gameState.socket.on("PlayerOutputBullets", (message)=>{
-                    console.log("The playerOutputsBullets is working. Heres the message: ",message)
+                    //console.log("The playerOutputsBullets is working. Heres the message: ",message)
+                    
                     switch(message.playerName){
                         case "player 1":
                             this.bulletplayer = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
                             this.bulletplayer.angle = this.player.angle + message.bulletAngle
                             this.bulletplayer.visible = message.bulletVisible
-                            this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocityplayer)
-                            this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocityplayer)
+                            if(gameState.currentPlayer === "player 1"){
+                                this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocityplayer)
+                                this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocityplayer)
+                            }
                             this.bulletplayer.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*500)
                             this.bulletplayer.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*500)
             
@@ -806,8 +975,10 @@ gameScene.update = function(){
                             this.bulletplayer2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
                             this.bulletplayer2.angle = this.player2.angle + message.bulletAngle
                             this.bulletplayer2.visible = message.bulletVisible
-                            this.player2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
-                            this.player2.setVelocityY(Math.sin((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
+                            if(gameState.currentPlayer==="player 2"){
+                                this.player2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
+                                this.player2.setVelocityY(Math.sin((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
+                            }
                             this.bulletplayer2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*500)
                             this.bulletplayer2.setVelocityY(Math.sin((Math.PI/180)*this.player2.angle)*500)
             
@@ -816,8 +987,10 @@ gameScene.update = function(){
                             this.bulletplayer3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
                             this.bulletplayer3.angle = this.player3.angle + message.bulletAngle
                             this.bulletplayer3.visible = message.bulletVisible
-                            this.player3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*this.velocityplayer3)
-                            this.player3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*this.velocityplayer3)
+                            if(gameState.currentPlayer==="player 3"){
+                                this.player3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*this.velocityplayer3)
+                                this.player3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*this.velocityplayer3)
+                            }
                             this.bulletplayer3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*500)
                             this.bulletplayer3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*500)
             
@@ -826,8 +999,10 @@ gameScene.update = function(){
                             this.bulletplayer4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
                             this.bulletplayer4.angle = this.player4.angle + message.bulletAngle
                             this.bulletplayer4.visible = message.bulletVisible
-                            this.player4.setVelocityX(Math.cos((Math.PI/180)*this.player4.angle)*this.velocityplayer4)
-                            this.player4.setVelocityY(Math.sin((Math.PI/180)*this.player4.angle)*this.velocityplayer4)
+                            if(gameState.currentPlayer==="player 4"){
+                                this.player4.setVelocityX(Math.cos((Math.PI/180)*this.player4.angle)*this.velocityplayer4)
+                                this.player4.setVelocityY(Math.sin((Math.PI/180)*this.player4.angle)*this.velocityplayer4)
+                            }
                             this.bulletplayer4.setVelocityX(Math.cos((Math.PI/180)*this.player4.angle)*500)
                             this.bulletplayer4.setVelocityY(Math.sin((Math.PI/180)*this.player4.angle)*500)
             
@@ -913,72 +1088,12 @@ gameScene.update = function(){
 
               if(this.velocity <=150){
 
-                
-                //console.log("this.velocity <=150:",this.velocity)
-                //alert(this.velocity)
-
-
-               
-                    gameState.socket.emit("PlayerInputVelocity", {})
-
-                    gameState.socket.on("PlayerOutputVelocity", (message)=>{
-                        switch(message.playerName){
-                            case "player 1":
-                                this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocityplayer)
-                                this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocityplayer)
-                                this.velocityplayer +=20
-                                break;
-                            case "player 2":
-                                this.player2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
-                                this.player2.setVelocityY(Math.sin((Math.PI/180)*this.playe2r.angle)*this.velocityplayer2)
-                                this.velocityplayer2 +=20
-                                break;
-                            case "player 3":
-                                this.player3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*this.velocity3)
-                                this.player3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*this.velocity3)
-                                this.velocityplayer3 +=20
-                                break;
-                            case "plaer 4":
-                                this.player4.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity4)
-                                this.player4.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity4)
-                                this.velocityplayer4 +=20
-                                break;
-                            default:
-                               
-                                break;
-                        }
-                    })
-                  
+ 
 
               }else {
 
-                gameState.socket.on("PlayerOutputVelocity", (message)=>{
-                    switch(message.playerName){
-                        case "player 1":
-                            this.player.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocityplayer)
-                            this.player.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocityplayer)
-                            this.velocityplayer +=20
-                            break;
-                        case "player 2":
-                            this.player2.setVelocityX(Math.cos((Math.PI/180)*this.player2.angle)*this.velocityplayer2)
-                            this.player2.setVelocityY(Math.sin((Math.PI/180)*this.playe2r.angle)*this.velocityplayer2)
-                            this.velocityplayer2 +=20
-                            break;
-                        case "player 3":
-                            this.player3.setVelocityX(Math.cos((Math.PI/180)*this.player3.angle)*this.velocity3)
-                            this.player3.setVelocityY(Math.sin((Math.PI/180)*this.player3.angle)*this.velocity3)
-                            this.velocityplayer3 +=20
-                            break;
-                        case "plaer 4":
-                            this.player4.setVelocityX(Math.cos((Math.PI/180)*this.player.angle)*this.velocity4)
-                            this.player4.setVelocityY(Math.sin((Math.PI/180)*this.player.angle)*this.velocity4)
-                            this.velocityplayer4 +=20
-                            break;
-                        default:
-                           
-                            break;
-                    }
-                })
+   
+                
                 
                 //console.log("this.velocity other than 150:",this.velocity)
               }

@@ -59,11 +59,26 @@ io.on("connection",function(socket){
 
     
 
-    playerData[socket.id] = {playerName:`player ${number}`,playerCount:0,playerRadius:2,playerCount2:0,playerRadius2:100,playerVelocity:60,playerAcceleration:60}
+    playerData[socket.id] = {playerName:`player ${number}`,playerCount:0,playerRadius:2,playerCount2:0,playerRadius2:100,playerVelocity:60,playerAcceleration:60,}
+    io.to(socket.id).emit("CurrentPlayerOutput", playerData[socket.id]);
     number += 1
     if(number > 4){
         number = 1
     }
+
+    socket.on("player1Location",(message)=>{
+        socket.broadcast.emit("player1LocationOutput",message)
+    })
+    socket.on("player2Location",(message)=>{
+        socket.broadcast.emit("player2LocationOutput",message)
+    })
+    socket.on("player3Location",(message)=>{
+        socket.broadcast.emit("player3LocationOutput",message)
+    })
+    socket.on("player4Location",(message)=>{
+        socket.broadcast.emit("player4LocationOutput",message)
+    })
+    
 
 
     socket.on("PlayerInputAngle", (message)=>{
@@ -118,7 +133,7 @@ io.on("connection",function(socket){
         }
     })
 
-    socket.on("PlayerInputputResetCount", (message)=>{
+    socket.on("PlayerInputResetCount", (message)=>{
 
         for(const i in playerData){
 
@@ -171,6 +186,34 @@ io.on("connection",function(socket){
             }
         }
     })
+
+
+    socket.on("PlayerInputCurrentLocation",(message)=>{
+        for(const i in playerData){
+
+            if(socket.id === i){
+
+              
+
+                io.emit("PlayerOutputCurrentLocation", playerData[i])
+            }
+        }
+    })
+
+    socket.on("PlayerInputXY",(message)=>{
+        for(const i in playerData){
+
+            if(socket.id === i){
+
+                playerData[i].x = message.x
+                playerData[i].y = message.y
+
+                io.emit("PlayerOutputXY", playerData[i])
+            }
+        }
+    })
+
+
 
     io.emit("playerData", playerData)
 
