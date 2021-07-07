@@ -50,6 +50,9 @@ gameScene.create = function(){
                   this.player.visible = true
                   this.player.body.setCollideWorldBounds(true);
                   this.player.body.bounce.set(1)
+                  this.physics.add.collider(this.player,this.player2)
+                  this.physics.add.collider(this.player,this.player3)
+                  this.physics.add.collider(this.player,this.player4)
                   this.player.angle = 180
                   this.bullet2player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
                     this.bullet2player.visible = false
@@ -78,6 +81,9 @@ gameScene.create = function(){
                   this.player2.visible = true
                   this.player2.body.setCollideWorldBounds(true);
                   this.player2.body.bounce.set(1)
+                  this.physics.add.collider(this.player2,this.player)
+                  this.physics.add.collider(this.player2,this.player3)
+                  this.physics.add.collider(this.player2,this.player4)
                   this.player2.angle = 180
                   this.bullet2player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
                     this.bullet2player2.visible = false
@@ -104,6 +110,9 @@ gameScene.create = function(){
                   this.player3.visible = true
                   this.player3.body.setCollideWorldBounds(true);
                   this.player3.body.bounce.set(1)
+                  this.physics.add.collider(this.player3,this.player2)
+                  this.physics.add.collider(this.player3,this.player4)
+                  this.physics.add.collider(this.player3,this.player)
                   this.player3.angle = 180
                   this.bullet2player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
                     this.bullet2player3.visible = false
@@ -130,6 +139,9 @@ gameScene.create = function(){
                   this.player4.visible = true
                   this.player4.body.setCollideWorldBounds(true);
                   this.player4.body.bounce.set(1)
+                  this.physics.add.collider(this.player4,this.player2)
+                  this.physics.add.collider(this.player4,this.player3)
+                  this.physics.add.collider(this.player4,this.player)
                   this.player4.angle = 180
                   this.bullet2player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
                     this.bullet2player4.visible = false
@@ -212,7 +224,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             this.count2player +=10
             this.radiusplayer += 2
             
-            /*
+            
             if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player.getBounds(),this.player2.getBounds())){
 
                 console.log("Wave bullet2 hit");
@@ -262,7 +274,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
     
                 this.player.x = this.randomX
                 this.player.y = this.randomY
-            }*/
+            }
             break;
         case "player 2":
             this.bullet2player2.visible = true
@@ -279,7 +291,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             this.bullet5player2.y =  ((Math.sin((Math.PI/180)*(this.count2player2+270))*this.radiusplayer2)+this.player2.y)
             this.count2player2 +=10
             this.radiusplayer2 += 2
-            /*
+            
             if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet2player2.getBounds(),this.player.getBounds())){
 
                 console.log("Wave bullet2 hit");
@@ -295,7 +307,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player2.getBounds(),this.player.getBounds())){
                 console.log("Wave bullet3 hit");
                
-                this.player2Health -=20;
+                this.playerHealth -=20;
                 
                 
                
@@ -303,7 +315,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player2.getBounds(),this.player.getBounds())){
                 console.log("Wave bullet4 hit");
                
-                this.player2Health -=20;
+                this.playerHealth -=20;
                 
                 
                
@@ -311,15 +323,15 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player2.getBounds(),this.player.getBounds())){
                 console.log("Wave bullet5 hit");
                
-                this.player2Health -=20;
+                this.playerHealth -=20;
                 
                 
                
                 console.log("This is player2's current health: ",this.player2Health);
             }
-            if(this.player2Health<=0){
+            if(this.playerHealth<=0){
 
-                this.player2Health = 100;
+                this.playerHealth = 100;
                 //gameState.player2Health =100
                 
                 this.randomX = Math.floor((Math.random()*315)+1)
@@ -327,9 +339,9 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
     
                 //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
     
-                this.player2.x = this.randomX
-                this.player2.y = this.randomY
-            }*/
+                this.player.x = this.randomX
+                this.player.y = this.randomY
+            }
             break;
         case "player 3":
             this.bullet2player3.visible = true
@@ -540,6 +552,7 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
           
             this.countplayer = message.count
             this.count2player = message.count2
+            this.radiusplayer = 0
             this.radiusplayer = message.radius
             this.bullet2player.visible = false
             this.bullet3player.visible = false
@@ -550,6 +563,7 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
           
             this.countplayer2 = message.count
             this.count2player2 = message.count2
+            this.radiusplayer2 = 0
             this.radiusplayer2 = message.radius
             this.bullet2player2.visible = false
             this.bullet3player2.visible = false
@@ -560,6 +574,7 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
         
             this.countplayer3 = message.count
             this.count2player3 = message.count2
+            this.radiusplayer3 = 0
             this.radiusplayer3 = message.radius
             this.bullet2player3.visible = false
             this.bullet3player3.visible = false
@@ -570,6 +585,7 @@ gameState.socket.on("PlayerOutputResetCount",(message)=>{
        
             this.countplayer4 = message.count
             this.count2player4 = message.count2
+            this.radiusplayer4 = 0
             this.radiusplayer4 = message.radius
             this.bullet2player4.visible = false
             this.bullet3player4.visible = false
