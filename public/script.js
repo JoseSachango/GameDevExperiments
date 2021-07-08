@@ -1,5 +1,7 @@
 //var Phaser = require("phaser") -> we used a cdn to connect the phaser library to our project, so we don't need to require anything here
 
+//const { delete } = require("../routes");
+
 //const API = require("./utils/API");
 
 //import  {io}  from "socket.io-client";
@@ -108,10 +110,10 @@ gameScene.create = function(){
                       this.player.visible = true
                       this.player.body.setCollideWorldBounds(true);
                       this.player.body.bounce.set(1)
-                      this.physics.add.collider(this.player,this.player2)
-                      this.physics.add.collider(this.player,this.player3)
-                      this.physics.add.collider(this.player,this.player4)
-                      this.player.angle = 180
+                      gameState.colliderP1P2 = this.physics.add.collider(this.player,this.player2)
+                      gameState.colliderP1P3 = this.physics.add.collider(this.player,this.player3)
+                      gameState.colliderP1P4 = this.physics.add.collider(this.player,this.player4)
+                      this.player.angle = 0
                       this.bullet2player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
                         this.bullet2player.visible = false
                         this.bullet3player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
@@ -141,9 +143,9 @@ gameScene.create = function(){
                       this.player2.visible = true
                       this.player2.body.setCollideWorldBounds(true);
                       this.player2.body.bounce.set(1)
-                      this.physics.add.collider(this.player2,this.player)
-                      this.physics.add.collider(this.player2,this.player3)
-                      this.physics.add.collider(this.player2,this.player4)
+                      gameState.colliderP2P1 = this.physics.add.collider(this.player2,this.player)
+                      gameState.colliderP2P3 = this.physics.add.collider(this.player2,this.player3)
+                      gameState.colliderP2P4 = this.physics.add.collider(this.player2,this.player4)
                       this.player2.angle = 180
                       this.bullet2player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
                         this.bullet2player2.visible = false
@@ -172,9 +174,9 @@ gameScene.create = function(){
                       this.player3.visible = true
                       this.player3.body.setCollideWorldBounds(true);
                       this.player3.body.bounce.set(1)
-                      this.physics.add.collider(this.player3,this.player2)
-                      this.physics.add.collider(this.player3,this.player4)
-                      this.physics.add.collider(this.player3,this.player)
+                      gameState.colliderP3P1 = this.physics.add.collider(this.player3,this.player2)
+                      gameState.colliderP3P2 = this.physics.add.collider(this.player3,this.player4)
+                      gameState.colliderP3P4  = this.physics.add.collider(this.player3,this.player)
                       this.player3.angle = 180
                       this.bullet2player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
                         this.bullet2player3.visible = false
@@ -203,9 +205,9 @@ gameScene.create = function(){
                       this.player4.visible = true
                       this.player4.body.setCollideWorldBounds(true);
                       this.player4.body.bounce.set(1)
-                      this.physics.add.collider(this.player4,this.player2)
-                      this.physics.add.collider(this.player4,this.player3)
-                      this.physics.add.collider(this.player4,this.player)
+                      gameState.colliderP4P1 = this.physics.add.collider(this.player4,this.player2)
+                      gameState.colliderP4P2  = this.physics.add.collider(this.player4,this.player3)
+                      gameState.colliderP4P3 =  this.physics.add.collider(this.player4,this.player)
                       this.player4.angle = 180
                       this.bullet2player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
                         this.bullet2player4.visible = false
@@ -235,6 +237,55 @@ gameScene.create = function(){
       })
 
     //---------------------------------------------------------
+
+    //-----------------------------------------------------------Player Disconnect
+    gameState.socket.on("PlayerDisconnect",(message)=>{
+        console.log("Trying to delete a player from this list: ",message)
+        
+            switch(message.playerName){
+                case "player 1":
+                    this.player.visible = false
+                    this.physics.world.removeCollider(gameState.colliderP1P2)
+                    this.physics.world.removeCollider(gameState.colliderP1P3)
+                    this.physics.world.removeCollider(gameState.colliderP1P4)
+                    this.physics.world.removeCollider(gameState.colliderP2P1)
+                    this.physics.world.removeCollider(gameState.colliderP3P1)
+                    this.physics.world.removeCollider(gameState.colliderP4P1)
+                    
+                    break;
+                case "player 2":
+                    this.player2.visible = false
+                    this.physics.world.removeCollider(gameState.colliderP2P1)
+                    this.physics.world.removeCollider(gameState.colliderP2P3)
+                    this.physics.world.removeCollider(gameState.colliderP2P4)
+                    this.physics.world.removeCollider(gameState.colliderP1P2)
+                    this.physics.world.removeCollider(gameState.colliderP3P2)
+                    this.physics.world.removeCollider(gameState.colliderP4P2)
+                    break;
+                case "player 3":
+                    this.player3.visible = false
+                    this.physics.world.removeCollider(gameState.colliderP3P1)
+                    this.physics.world.removeCollider(gameState.colliderP3P2)
+                    this.physics.world.removeCollider(gameState.colliderP3P4)
+                    this.physics.world.removeCollider(gameState.colliderP1P3)
+                    this.physics.world.removeCollider(gameState.colliderP2P3)
+                    this.physics.world.removeCollider(gameState.colliderP4P3)
+                    break;
+                case "player 4":
+                    this.player4.visible = false
+                    this.physics.world.removeCollider(gameState.colliderP4P1)
+                    this.physics.world.removeCollider(gameState.colliderP4P2)
+                    this.physics.world.removeCollider(gameState.colliderP4P3)
+                    this.physics.world.removeCollider(gameState.colliderP1P4)
+                    this.physics.world.removeCollider(gameState.colliderP2P4)
+                    this.physics.world.removeCollider(gameState.colliderP3P4)
+                    break;
+                default:
+                    break;
+            }
+        
+    })
+    //-----------------------------------------------------------Player Disconnect end
 
     bg = this.add.sprite(0,0,"background")
     bg.setPosition(320,180)
@@ -361,7 +412,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
 
                 console.log("Wave bullet2 hit");
                
-                this.player2Health -=20;
+                this.player2Health -=5;
                 
                 
                
@@ -372,7 +423,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player2.getBounds(),this.player.getBounds())){
                 console.log("Wave bullet3 hit");
                
-                this.playerHealth -=20;
+                this.playerHealth -=5;
                 
                 
                
@@ -380,7 +431,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player2.getBounds(),this.player.getBounds())){
                 console.log("Wave bullet4 hit");
                
-                this.playerHealth -=20;
+                this.playerHealth -=5;
                 
                 
                
@@ -388,7 +439,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player2.getBounds(),this.player.getBounds())){
                 console.log("Wave bullet5 hit");
                
-                this.playerHealth -=20;
+                this.playerHealth -=5;
                 
                 
                
@@ -775,6 +826,9 @@ gameState.socket.on("CurrentPlayerOutput",(message)=>{
 
 
 gameScene.update = function(){
+
+    //Add functionality: check the player angles frequently. there is the angles of the players on your screen and the actual angles of the players.
+
 
     //Method to keep accurate track of the players location in each client
     if(gameState.currentPlayer){

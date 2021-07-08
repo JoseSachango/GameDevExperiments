@@ -219,14 +219,10 @@ io.on("connection",function(socket){
 
     socket.on("disconnect",()=>{
         console.log("Player disconnected from the game: ",socket.id)
+        io.emit("PlayerDisconnect", playerData[socket.id])
         delete playerData[socket.id]
         console.log("This is the current player information stored in playerData: ",playerData)
-        /*
-        axios.delete("/api/players/",{socketId: socket.id.toString()}).then(results=>{
-            console.log("The delete axios request was performed successfully",results)
-        }).catch(err=>{
-            console.log(`An error was recieved when trying to delete the player with and id of ${socket.id}`,err)
-        })*/
+        
     })
 
     console.log("This is the socket id!!: ",socket.id)
