@@ -33,6 +33,63 @@ gameScene.preload = function(){
 
 // called once after preload ends
 gameScene.create = function(){
+
+    //------------------------------Wave bullet collision function
+    /*
+    var waveBulletCollision = function(bullet,player,playerHealth){
+        if(Phaser.Geom.Intersects.RectangleToRectangle(arg1.getBounds(),this.player2.getBounds())){
+
+            console.log("Wave bullet2 hit");
+            
+            playerHealth -=5;
+            
+            
+           
+            console.log("This is player2's current health: ",playerHealth);
+            
+
+          
+        }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player.getBounds(),this.player2.getBounds())){
+            console.log("Wave bullet3 hit");
+           
+            this.player2Health -=5;
+            
+            
+           
+            console.log("This is player2's current health: ",this.player2Health);
+        }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player.getBounds(),this.player2.getBounds())){
+            console.log("Wave bullet4 hit");
+           
+            this.player2Health -=5;
+            
+            
+           
+            console.log("This is player2's current health: ",this.player2Health);
+        }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player.getBounds(),this.player2.getBounds())){
+            console.log("Wave bullet5 hit");
+           
+            this.player2Health -=5;
+            
+            
+           
+            console.log("This is player2's current health: ",this.player2Health);
+        }
+        if(this.player2Health<=0){
+
+            this.player2Health = 100;
+            //gameState.player2Health =100
+            
+            this.randomX = Math.floor((Math.random()*315)+1)
+            this.randomY = Math.floor(((Math.random())*170)+1)
+
+            //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
+
+            this.player2.x = this.randomX
+            this.player2.y = this.randomY
+        }
+    }*/
+    //------------------------------End of wave bullet collision function
+
     // -------------------------------------------
     gameState.socket = io()
 
@@ -44,121 +101,129 @@ gameScene.create = function(){
             switch(message[i].playerName) {
 
                 case "player 1":
-                  this.player = this.physics.add.sprite(50,50,"player",0)// placing player in the scene context so you can access it from different methods
-                  gameState.playerOne = this.player
-                  this.playerHealth = 100
-                  this.player.visible = true
-                  this.player.body.setCollideWorldBounds(true);
-                  this.player.body.bounce.set(1)
-                  this.physics.add.collider(this.player,this.player2)
-                  this.physics.add.collider(this.player,this.player3)
-                  this.physics.add.collider(this.player,this.player4)
-                  this.player.angle = 180
-                  this.bullet2player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-                    this.bullet2player.visible = false
-                    this.bullet3player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-                    this.bullet3player.visible = false
-                    this.bullet4player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-                    this.bullet4player.visible = false
-                    this.bullet5player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-                    this.bullet5player.visible = false
-                    this.bullet6player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
-                    this.bullet6player.visible = false
-                    this.velocityplayer = message[i].playerVelocity
-                    this.accelerationplayer = message[i].playerAcceleration
-                    this.countplayer = message[i].playerCount
-                    this.count2player = message[i].playerCount2
-                    this.radiusplayer = message[i].playerRadius
-                    this.radius2player = message[i].playerRadius2
+                  if(!gameState.playerOne){
+                      this.player = this.physics.add.sprite(50,50,"player",0)// placing player in the scene context so you can access it from different methods
+                      gameState.playerOne = this.player
+                      this.playerHealth = 100
+                      this.player.visible = true
+                      this.player.body.setCollideWorldBounds(true);
+                      this.player.body.bounce.set(1)
+                      this.physics.add.collider(this.player,this.player2)
+                      this.physics.add.collider(this.player,this.player3)
+                      this.physics.add.collider(this.player,this.player4)
+                      this.player.angle = 180
+                      this.bullet2player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                        this.bullet2player.visible = false
+                        this.bullet3player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                        this.bullet3player.visible = false
+                        this.bullet4player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                        this.bullet4player.visible = false
+                        this.bullet5player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                        this.bullet5player.visible = false
+                        this.bullet6player = this.physics.add.sprite(this.player.x,this.player.y,"bullet",0)
+                        this.bullet6player.visible = false
+                        this.velocityplayer = message[i].playerVelocity
+                        this.accelerationplayer = message[i].playerAcceleration
+                        this.countplayer = message[i].playerCount
+                        this.count2player = message[i].playerCount2
+                        this.radiusplayer = message[i].playerRadius
+                        this.radius2player = message[i].playerRadius2
+                  }
                    
                   //Add code here that is being updated constantly by another sockets inputs
                  
                     break;
                 case "player 2":
-                  this.player2 = this.physics.add.sprite(520,50,"player",0)// placing player in the scene context so you can access it from different methods
-                  gameState.playerTwo = this.player2
-                  this.playerHealth2 = 100
-                  this.player2.visible = true
-                  this.player2.body.setCollideWorldBounds(true);
-                  this.player2.body.bounce.set(1)
-                  this.physics.add.collider(this.player2,this.player)
-                  this.physics.add.collider(this.player2,this.player3)
-                  this.physics.add.collider(this.player2,this.player4)
-                  this.player2.angle = 180
-                  this.bullet2player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
-                    this.bullet2player2.visible = false
-                    this.bullet3player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
-                    this.bullet3player2.visible = false
-                    this.bullet4player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
-                    this.bullet4player2.visible = false
-                    this.bullet5player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
-                    this.bullet5player2.visible = false
-                    this.bullet6player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
-                    this.bullet6player2.visible = false
-                    this.velocityplayer2 = message[i].playerVelocity
-                    this.accelerationplayer2 = message[i].playerAcceleration
-                    this.countplayer2 = message[i].playerCount
-                    this.count2player2 = message[i].playerCount2
-                    this.radiusplayer2 = message[i].playerRadius
-                    this.radius2player2 = message[i].playerRadius2
+                  if(!gameState.playerTwo){
+                      this.player2 = this.physics.add.sprite(520,50,"player",0)// placing player in the scene context so you can access it from different methods
+                      gameState.playerTwo = this.player2
+                      this.player2Health = 100
+                      this.player2.visible = true
+                      this.player2.body.setCollideWorldBounds(true);
+                      this.player2.body.bounce.set(1)
+                      this.physics.add.collider(this.player2,this.player)
+                      this.physics.add.collider(this.player2,this.player3)
+                      this.physics.add.collider(this.player2,this.player4)
+                      this.player2.angle = 180
+                      this.bullet2player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                        this.bullet2player2.visible = false
+                        this.bullet3player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                        this.bullet3player2.visible = false
+                        this.bullet4player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                        this.bullet4player2.visible = false
+                        this.bullet5player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                        this.bullet5player2.visible = false
+                        this.bullet6player2 = this.physics.add.sprite(this.player2.x,this.player2.y,"bullet",0)
+                        this.bullet6player2.visible = false
+                        this.velocityplayer2 = message[i].playerVelocity
+                        this.accelerationplayer2 = message[i].playerAcceleration
+                        this.countplayer2 = message[i].playerCount
+                        this.count2player2 = message[i].playerCount2
+                        this.radiusplayer2 = message[i].playerRadius
+                        this.radius2player2 = message[i].playerRadius2
+                  }
                   //Add code here that is being updated constantly by another sockets inputs
                     break;
                 case "player 3":
-                  this.player3 = this.physics.add.sprite(50,330,"player",0)// placing player in the scene context so you can access it from different methods
-                  gameState.playerThree = this.player3
-                  this.playerHealth3 = 100
-                  this.player3.visible = true
-                  this.player3.body.setCollideWorldBounds(true);
-                  this.player3.body.bounce.set(1)
-                  this.physics.add.collider(this.player3,this.player2)
-                  this.physics.add.collider(this.player3,this.player4)
-                  this.physics.add.collider(this.player3,this.player)
-                  this.player3.angle = 180
-                  this.bullet2player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
-                    this.bullet2player3.visible = false
-                    this.bullet3player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
-                    this.bullet3player3.visible = false
-                    this.bullet4player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
-                    this.bullet4player3.visible = false
-                    this.bullet5player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
-                    this.bullet5player3.visible = false
-                    this.bullet6player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
-                    this.bullet6player3.visible = false
-                    this.velocityplayer3 = message[i].playerVelocity
-                    this.accelerationplayer3 = message[i].playerAcceleration
-                    this.countplayer3 = message[i].playerCount
-                    this.count2player3 = message[i].playerCount2
-                    this.radiusplayer3 = message[i].playerRadius
-                    this.radius2player3 = message[i].playerRadius2
+                  if(!gameState.playerThree){
+                      this.player3 = this.physics.add.sprite(50,330,"player",0)// placing player in the scene context so you can access it from different methods
+                      gameState.playerThree = this.player3
+                      this.player2Health = 100
+                      this.player3.visible = true
+                      this.player3.body.setCollideWorldBounds(true);
+                      this.player3.body.bounce.set(1)
+                      this.physics.add.collider(this.player3,this.player2)
+                      this.physics.add.collider(this.player3,this.player4)
+                      this.physics.add.collider(this.player3,this.player)
+                      this.player3.angle = 180
+                      this.bullet2player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                        this.bullet2player3.visible = false
+                        this.bullet3player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                        this.bullet3player3.visible = false
+                        this.bullet4player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                        this.bullet4player3.visible = false
+                        this.bullet5player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                        this.bullet5player3.visible = false
+                        this.bullet6player3 = this.physics.add.sprite(this.player3.x,this.player3.y,"bullet",0)
+                        this.bullet6player3.visible = false
+                        this.velocityplayer3 = message[i].playerVelocity
+                        this.accelerationplayer3 = message[i].playerAcceleration
+                        this.countplayer3 = message[i].playerCount
+                        this.count2player3 = message[i].playerCount2
+                        this.radiusplayer3 = message[i].playerRadius
+                        this.radius2player3 = message[i].playerRadius2
+                  }
                   //Add code here that is being updated constantly by another sockets inputs
                     break;
                 case "player 4":
-                  this.player4 = this.physics.add.sprite(520,330,"player",0)// placing player in the scene context so you can access it from different methods
-                  gameState.playerFour = this.player4
-                  this.playerHealth4 = 100
-                  this.player4.visible = true
-                  this.player4.body.setCollideWorldBounds(true);
-                  this.player4.body.bounce.set(1)
-                  this.physics.add.collider(this.player4,this.player2)
-                  this.physics.add.collider(this.player4,this.player3)
-                  this.physics.add.collider(this.player4,this.player)
-                  this.player4.angle = 180
-                  this.bullet2player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
-                    this.bullet2player4.visible = false
-                    this.bullet3player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
-                    this.bullet3player4.visible = false
-                    this.bullet4player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
-                    this.bullet4player4.visible = false
-                    this.bullet5player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
-                    this.bullet5player4.visible = false
-                    this.bullet6player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
-                    this.bullet6player4.visible = false
-                    this.velocityplayer4 = message[i].playerVelocity
-                    this.accelerationplayer4 = message[i].playerAcceleration
-                    this.countplayer4 = message[i].playerCount
-                    this.count2player4 = message[i].playerCount2
-                    this.radiusplayer4 = message[i].playerRadius
-                    this.radius2player4 = message[i].playerRadius2
+                  if(!gameState.playerFour){
+                      this.player4 = this.physics.add.sprite(520,330,"player",0)// placing player in the scene context so you can access it from different methods
+                      gameState.playerFour = this.player4
+                      this.player4Health = 100
+                      this.player4.visible = true
+                      this.player4.body.setCollideWorldBounds(true);
+                      this.player4.body.bounce.set(1)
+                      this.physics.add.collider(this.player4,this.player2)
+                      this.physics.add.collider(this.player4,this.player3)
+                      this.physics.add.collider(this.player4,this.player)
+                      this.player4.angle = 180
+                      this.bullet2player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                        this.bullet2player4.visible = false
+                        this.bullet3player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                        this.bullet3player4.visible = false
+                        this.bullet4player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                        this.bullet4player4.visible = false
+                        this.bullet5player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                        this.bullet5player4.visible = false
+                        this.bullet6player4 = this.physics.add.sprite(this.player4.x,this.player4.y,"bullet",0)
+                        this.bullet6player4.visible = false
+                        this.velocityplayer4 = message[i].playerVelocity
+                        this.accelerationplayer4 = message[i].playerAcceleration
+                        this.countplayer4 = message[i].playerCount
+                        this.count2player4 = message[i].playerCount2
+                        this.radiusplayer4 = message[i].playerRadius
+                        this.radius2player4 = message[i].playerRadius2
+                  }
                   //Add code here that is being updated constantly by another sockets inputs
                     break;
   
@@ -229,7 +294,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
 
                 console.log("Wave bullet2 hit");
                
-                this.player2Health -=20;
+                this.player2Health -=5;
                 
                 
                
@@ -240,7 +305,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet3player.getBounds(),this.player2.getBounds())){
                 console.log("Wave bullet3 hit");
                
-                this.player2Health -=20;
+                this.player2Health -=5;
                 
                 
                
@@ -248,7 +313,7 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet4player.getBounds(),this.player2.getBounds())){
                 console.log("Wave bullet4 hit");
                
-                this.player2Health -=20;
+                this.player2Health -=5;
                 
                 
                
@@ -256,15 +321,15 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
             }else if(Phaser.Geom.Intersects.RectangleToRectangle(this.bullet5player.getBounds(),this.player2.getBounds())){
                 console.log("Wave bullet5 hit");
                
-                this.player2Health -=20;
+                this.player2Health -=5;
                 
                 
                
                 console.log("This is player2's current health: ",this.player2Health);
             }
-            if(this.playerHealth<=0){
+            if(this.player2Health<=0){
 
-                this.playerHealth = 100;
+                this.player2Health = 100;
                 //gameState.player2Health =100
                 
                 this.randomX = Math.floor((Math.random()*315)+1)
@@ -272,8 +337,8 @@ gameState.socket.on("PlayerOutputBulletsWave", (message)=>{
     
                 //this.player = this.physics.add.sprite( this.randomX, this.randomY,"player",0)
     
-                this.player.x = this.randomX
-                this.player.y = this.randomY
+                this.player2.x = this.randomX
+                this.player2.y = this.randomY
             }
             break;
         case "player 2":
